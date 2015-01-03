@@ -1,0 +1,19 @@
+- adapt language settings : 
+	3.7.2 resources/language/
+	Translation tools:
+
+	Language support
+	Translation System
+	Convert .xml to .po: xbmc-xml2po
+	Check for .po files: xbmc-checkpo
+	Utility for keeping XBMC upstream language files and the language files hosted on transifex.com in sync: xbmc-txupdate
+
+	String ID range:
+
+	strings 30000 thru 30999 reserved for plugins and plugin settings
+	strings 31000 thru 31999 reserved for skins
+	strings 32000 thru 32999 reserved for scripts
+	strings 33000 thru 33999 reserved for common strings used in add-ons
+	strings.po
+
+	Note: strings.xml will possibly be deprecated after the release of Frodo/Gotham. Frodo and Gotham will still be backwards compatible with .xml
