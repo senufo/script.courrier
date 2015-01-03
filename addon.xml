@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.mail"
-       name="Mail "
-       version="0.1.3"
+<addon id="script.program.courrier"
+       name="Courrier"
+       version="0.1.4"
        provider-name="Senufo">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
   <extension point="xbmc.python.script"
-             library="courrier.py" />
+             library="addon.py" />
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">mail Checker</summary>
-    <summary lang="fr">Courrier</summary>
-    <description lang="en">View e-mails</description>
-    <description lang="fr">
-xbmc-courrier is a script for read mail on POP or IMAP servers.
+    <summary lang="en">Mail Checker</summary>
+    <summary lang="fr">Reléve le Courrier</summary>
+    <description lang="en">
+Courrier is a script for read mail on POP or IMAP servers.
 
 Based on the script and the skin of gmailchecker
-it's not compatible with plugin mail (Tristan Fischer)
+
+Configure server in settings
+You can define the max size of messages and a filter to search messages in IMAP server
+The text of your message scrolls automatically
+
+At the moment you view message only in text mode and html message are convert in text with Beautilfulsoup and html2text "Aaron Swartz (me@aaronsw.com)" modules.
+On bottom you have status line with date and attach file name of the selected message
+For IMAP server you can define in SKIN your folder and the flag use for select message
+if you have installed service.notfier the script.mail use configuration settings of service.notifier
+    </description>
+
+    <description lang="fr">
+Courrier is a script for read mail on POP or IMAP servers.
+
+Based on the script and the skin of gmailchecker
 
 Configure server in settings
 You can define the max size of messages and a filter to search messages in IMAP server
@@ -28,5 +41,6 @@ For IMAP server you can define in SKIN your folder and the flag use for select m
 if you have installed service.notfier the script.mail use configuration settings of service.notifier
     </description>
     <platform>all</platform>
+    <source>https://github.com/senufo/plugin.program.courrier</source>
   </extension>
 </addon>
