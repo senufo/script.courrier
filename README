@@ -1,7 +1,6 @@
-xbmc-courrier is a script for read mail on POP or imap servers.
+courrier is a script for read mail on POP or imap servers.
 
 Based on the script and the skin of gmailchecker
-No compatible with addons mail (Tristan Fischer)
 
 Configure server in settings
 You can define the max size of messages and a filter to search messages in IMAP server
@@ -11,4 +10,3 @@ At the moment you view message only in text mode and html message are convert in
 On bottom you have status line with date and attach file name of the selected message
 For IMAP server you can define in SKIN your folder and the flag use for select message
 
-if you have installed service.notfier the script.mail use configuration settings of service.notifier
