@@ -399,6 +399,6 @@ class MailWindow(xbmcgui.WindowXML):
         elif (controlId == QUIT):
             self.close()
 
-mydisplay = MailWindow( "script-mail-main.xml" , __cwd__, "Default")
+mydisplay = MailWindow( "script-courrier-main.xml" , __cwd__, "Default")
 mydisplay .doModal()
 del mydisplay
