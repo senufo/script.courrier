@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-xbmc script for read mail on IMAP/POP server
+kodi script for read mail on IMAP/POP server
 """
 #Script pour consulter ses mails
 #Senufo, 2011 (c)
@@ -17,8 +17,8 @@ from BeautifulSoup import *
 from re import compile as Pattern
 
 __author__     = "Senufo"
-__scriptid__   = "script.mail"
-__scriptname__ = "Mail"
+__scriptid__   = "script.program.courrier"
+__scriptname__ = "Courrier"
 
 __addon__      = xbmcaddon.Addon(__scriptid__)
 
@@ -48,16 +48,16 @@ from email.Header import decode_header
 #Script html2text.py dans resources/lib
 from html2text import *
 #Utilise le fichier de configuration de service notifier si il existe
-try:
-    Addon = xbmcaddon.Addon('service.notifier')
+#try:
+#    Addon = xbmcaddon.Addon('service.notifier')
     #On vérifie que le fichier de configuration existe
     #si il n'existe pas on charge le fichier de config de mail
-    if not (Addon.getSetting( 'name1' )):
-        Addon = xbmcaddon.Addon('script.mail')
-except:
-    Addon = xbmcaddon.Addon('script.mail')
+#    if not (Addon.getSetting( 'name1' )):
+#        Addon = xbmcaddon.Addon(__addon__)
+#except:
+Addon = xbmcaddon.Addon(__scriptid__)
 #Pour les messages traduit on utilise ceux de script.mail
-Addon_traduc = xbmcaddon.Addon('script.mail')
+Addon_traduc = xbmcaddon.Addon(__scriptid__)
 #get actioncodes from keymap.xml/ keys.h
 ACTION_PREVIOUS_MENU = 10
 ACTION_SELECT_ITEM = 7
