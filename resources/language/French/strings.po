@@ -1,0 +1,105 @@
+# Kodi Media Center language file
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: http://trac.xbmc.org/\n"
+"POT-Creation-Date: 2015-01-03 16:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: French (http://www.transifex.com/projects/p/xbmc-main/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#French
+
+msgctxt "#610"
+msgid "Logging in..."
+msgstr "Connexion au serveur..."
+
+msgctxt "#611"
+msgid "(%s) New e-mail%s"
+msgstr "(%s) Nouveau(x) courriels"
+
+msgctxt "#612"
+msgid "no mail"
+msgstr "Pas de messages"
+
+msgctxt "#613"
+msgid "Error Connecting to server"
+msgstr "Erreur de connexion au serveur"
+
+msgctxt "#614"
+msgid "Inbox"
+msgstr "Boîte de réception"
+
+msgctxt "#615"
+msgid "You have"
+msgstr "Vous avez"
+
+msgctxt "#616"
+msgid " email(s)"
+msgstr "message(s)"
+
+msgctxt "#617"
+msgid "Message(s)"
+msgstr "Message(s)"
+
+msgctxt "#618"
+msgid "Fetch mail"
+msgstr "récupère le courrier"
+
+msgctxt "#619"
+msgid "Please wait"
+msgstr "Attendez, SVP..."
+
+msgctxt "#620"
+msgid "Problem connecting to server : %s"
+msgstr "Problème de connexion au serveur"
+
+#Script Settings
+#empty strings from id 621 to 30099
+
+msgctxt "#30100"
+msgid "Server name"
+msgstr "Nom du serveur"
+
+msgctxt "#30101"
+msgid "Username"
+msgstr "Utilisateur"
+
+msgctxt "#30102"
+msgid "Password"
+msgstr "Mot de passe"
+
+msgctxt "#30103"
+msgid "Server"
+msgstr "Serveur"
+
+msgctxt "#30104"
+msgid "Port"
+msgstr "Port"
+
+msgctxt "#30105"
+msgid "SSL"
+msgstr "SSL"
+
+msgctxt "#30106"
+msgid "Type"
+msgstr "Type"
+
+#empty strings from id 30107 to 30115
+
+msgctxt "#30116"
+msgid "Folder"
+msgstr "Dossier"
+
+msgctxt "#30117"
+msgid "Max Size Message"
+msgstr "Taille maximum du message"
+
+msgctxt "#30118"
+msgid "Filter search messages IMAP"
+msgstr "Filtre de recherche des messages IMAP"
