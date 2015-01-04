@@ -45,6 +45,18 @@ from email.utils import parseaddr
 from email.Header import decode_header
 #import mimetypes
 
+DEBUG_LOG = __addon__.getSetting( 'debug' )
+if 'true' in DEBUG_LOG : DEBUG_LOG = True
+else: DEBUG_LOG = False
+DEBUG_LOG = True
+
+#Function Debug
+def debug(msg):
+    """
+    print message if DEBUG_LOG == True
+    """
+    if DEBUG_LOG == True: print " [%s] : %s " % (__scriptid__, msg)
+
 #Script html2text.py dans resources/lib
 from html2text import *
 #Utilise le fichier de configuration de service notifier si il existe
@@ -122,7 +134,7 @@ class MailWindow(xbmcgui.WindowXML):
         """
         Check mail on POP or IMAP server
         """
-        #print 'ALIAS = %s ' % alias
+        #debug( 'ALIAS = %s ' % alias )
         self.getControl( STATUS_LABEL ).setLabel( '%s ...' % alias )
 
         #Vide la liste des sudjet des messages
@@ -162,7 +174,7 @@ class MailWindow(xbmcgui.WindowXML):
                     if '1' in self.TYPE: #IMAP
                         self.getImapMails()
                 except Exception, e:
-                    print str( e )
+                    debug( str( e ) )
                     dialog = xbmcgui.DialogProgress()
                     dialog.create(Addon_traduc.getLocalizedString(id=614),
                           Addon_traduc.getLocalizedString(id=620) % self.SERVER)
@@ -184,7 +196,7 @@ class MailWindow(xbmcgui.WindowXML):
         mail.pass_(str(self.PASSWORD))
         numEmails = mail.stat()[0]
 
-        print "You have", numEmails, "emails"
+        debug( "You have", numEmails, "emails" )
         #Affiche le nombre de msg
         self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
         dialog.close()
@@ -199,7 +211,7 @@ class MailWindow(xbmcgui.WindowXML):
                 Addon_traduc.getLocalizedString(id=615) + str(numEmails) + Addon_traduc.getLocalizedString(id=616))
             ##Retrieve list of mails
             resp, items, octets = mail.list()
-            print "resp %s, %s " % (resp, items)
+            debug( "resp %s, %s " % (resp, items))
             dialog.close()
             #On recupere tous les messages pour les afficher
             progressDialog = xbmcgui.DialogProgress()
@@ -256,18 +268,34 @@ class MailWindow(xbmcgui.WindowXML):
 
         body = None
         html = None
+	detach_dir = '/home/henri/'
         for part in msgobj.walk():
             content_disposition = part.get("Content-Disposition", None)
             prog = re.compile('attachment')
             #Retrouve le nom des fichiers attaches
             if prog.search(str(content_disposition)):
                 file_att = str(content_disposition)
-
+		#########################################################################
+                filename = part.get_filename()
+		counter = 1
+	        if not filename:
+        	    filename = 'part-%03d%s' % (counter, 'bin')
+	            counter += 1
+        	att_path = os.path.join(detach_dir, filename)
+		debug(("Fichier : %s" % (att_path)))
+	        #if not os.path.isfile(att_path) :
+        	fp = open(att_path, 'wb')
+	        fp.write(part.get_payload(decode=True))
+        	fp.close()
+		debug("Fichier ECRIT")
+		##########################################################################
+		debug(("ATT : %s, %s content : " % (file_att,filename)))
+		#debug(part)
                 pattern = Pattern(r"\"(.+)\"")
                 att_file +=  str(pattern.findall(file_att))
-
+		#ControlImage(x, y, width, height, filename[, aspectRatio, colorDiffuse])
             if part.get_content_type() == "text/plain":
-                if body is None:
+		if body is None:
                     body = ""
                 try :
                     #Si pas de charset défini
@@ -281,7 +309,7 @@ class MailWindow(xbmcgui.WindowXML):
                            ).encode('utf8','replace')
                 except Exception, e:
                     body += "Erreur unicode"
-                    print "BODY = %s " % body
+                    debug( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
                 if html is None:
                     html = ""
@@ -293,7 +321,7 @@ class MailWindow(xbmcgui.WindowXML):
                     html = html2text(html)
                 except Exception, e:
                     html += "Erreur unicode html"
-                    #print "HTML = %s " % html
+                    #debug( "HTML = %s " % html )
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
@@ -304,20 +332,21 @@ class MailWindow(xbmcgui.WindowXML):
                 html = html.encode('ascii','replace')
                 description = str(html)
             except Exception, e:
-                print str(e)
+                debug( str(e) )
         #Nb de lignes du msg pour permettre le scroll text
         self.nb_lignes = description.count("\n")
 
         listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
         listitem.setProperty( "realname", realname )
         date += att_file
+	debug(("fichier attachés : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
         self.getControl( EMAIL_LIST ).addItem( listitem )
 
     def getImapMails(self):
         """
-        Get amil form IMAP server
+        Get mail form IMAP server
         """
         dialog = xbmcgui.DialogProgress()
         dialog.create(Addon_traduc.getLocalizedString(id=614),
@@ -333,9 +362,11 @@ class MailWindow(xbmcgui.WindowXML):
             att_file = ':'
             imap.login(self.USER, self.PASSWORD)
             imap.select(self.FOLDER)
+	    #Search new mail, Filter examples : UNSEEN, ALL, ....
             #numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
+            #numEmails = len(imap.search(None, 'ALL')[1][0].split())
             numEmails = len(imap.search(None, SEARCH_PARAM )[1][0].split())
-            #print "You have", numEmails, "emails IMAP"
+            debug( ("You have %d emails IMAP" % numEmails) )
             #Affiche le nombre de msg
             self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
             dialog.close()
@@ -351,7 +382,9 @@ class MailWindow(xbmcgui.WindowXML):
                                        Addon_traduc.getLocalizedString(id=618))
                 i = 0
         ##Retrieve list of mails
-                typ, data = imap.search(None, SEARCH_PARAM)
+                typ, data = imap.search('UTF-8', SEARCH_PARAM)
+                #typ, data = imap.search(None, 'UnSeen')
+                #typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
                     i = i + 1
                     typ, data = imap.fetch(num, '(RFC822)')
@@ -359,7 +392,7 @@ class MailWindow(xbmcgui.WindowXML):
                     progressDialog2.update(up,
                                        Addon_traduc.getLocalizedString(id=618),
                                        Addon_traduc.getLocalizedString(id=619))
-                    print "UP = %d " % up
+                    #debug( "UP = %d " % up )
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
@@ -367,13 +400,14 @@ class MailWindow(xbmcgui.WindowXML):
             self.getControl( EMAIL_LIST ).selectItem(0)
             imap.logout
         except Exception, e:
-            print str( e )
-            print 'IMAP exception'
+            debug( 'IMAP exception' )
+            debug( str( e ) )
+            debug( 'IMAP exception' )
 
 
     def onAction(self, action):
-        #print "ID Action %d" % action.getId()
-        #print "Code Action %d" % action.getButtonCode()
+        #debug( "ID Action %d" % action.getId() )
+        #debug( "Code Action %d" % action.getButtonCode() )
         if action == ACTION_PREVIOUS_MENU:
             self.close()
         if action == ACTION_MOVE_UP:
@@ -384,15 +418,15 @@ class MailWindow(xbmcgui.WindowXML):
             if (self.position > 0):
                 self.position = self.position - 1
             self.getControl( MSG_BODY ).scroll(self.position)
-            print "Position F = %d " % self.position
+            debug( "Position F = %d " % self.position )
         if (action == ACTION_REWIND): #PageUp
             if (self.position <= self.nb_lignes):
                 self.position = self.position + 1
             self.getControl( MSG_BODY ).scroll(self.position)
-            print "Position R = %d " % self.position
+            debug( "Position R = %d " % self.position )
 
     def onClick( self, controlId ):
-        #print "onClick controId = %d " % controlId
+        #debug( "onClick controId = %d " % controlId )
         if (controlId in [SERVER1, SERVER2, SERVER3]):
             label = self.getControl( controlId ).getLabel()
             self.checkEmail(label)
