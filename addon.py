@@ -271,6 +271,8 @@ class MailWindow(xbmcgui.WindowXML):
         html = None
 	#Repertoire pour les fichiers attachés
 	detach_dir = '/tmp/'
+        counter = -1 
+	attached_images = []
         for part in msgobj.walk():
             content_disposition = part.get("Content-Disposition", None)
             prog = re.compile('attachment')
@@ -279,7 +281,7 @@ class MailWindow(xbmcgui.WindowXML):
                 file_att = str(content_disposition)
 		#########################################################################
                 filename = part.get_filename()
-		counter = 1
+		counter += 1
         	att_path = os.path.join(detach_dir, filename)
                 pattern = re.compile('png|jpg')
 		if pattern.search(str(att_path)):
@@ -287,13 +289,13 @@ class MailWindow(xbmcgui.WindowXML):
                     fp = open(att_path, 'wb')
 	            fp.write(part.get_payload(decode=True))
                     fp.close()
-		    debug("Fichier ECRIT")
+                    attached_images.append(att_path)
+		    debug(("ATTACHED :%s" % attached_images))
 		##########################################################################
-		debug(("ATT : %s, %s content : " % (file_att,filename)))
+		#debug(("ATT : %s" % (file_att)))
 		#debug(part)
                 pattern = Pattern(r"\"(.+)\"")
                 att_file +=  str(pattern.findall(file_att))
-		#xbmcgui.ControlImage(0, 0, 100, 100, att_path)
             if part.get_content_type() == "text/plain":
 		if body is None:
                     body = ""
@@ -343,10 +345,13 @@ class MailWindow(xbmcgui.WindowXML):
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
 	#Verify if att_path exist
-        if 'att_path' in locals():
-           listitem.setProperty( "image_w", '200' )
-           listitem.setProperty( "image_h", '300' )
-           listitem.setProperty( "image", att_path )
+        if 'attached_images' in locals():
+           counter = 0
+           for name_image in attached_images:
+              #debug(('attached %s ' % attached_images))
+	      counter += 1 
+              debug(('image%s, IMAGE : %s ' % (counter,name_image)))
+              listitem.setProperty( ('image%s' % counter), name_image )
         self.getControl( EMAIL_LIST ).addItem( listitem )
 
     def getImapMails(self):
