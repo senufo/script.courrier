@@ -76,7 +76,25 @@
         <posy>320</posy>
         <width>150</width>
         <height>100</height>
-        <texture>$INFO[Container(120).ListItem.Property(image)]</texture>
+        <texture>$INFO[Container(120).ListItem.Property(image1)]</texture>
+      </control>
+      
+      <control type="image">
+        <description>Image : affiche les images attachées</description>
+        <posx>0</posx>
+        <posy>420</posy>
+        <width>150</width>
+        <height>100</height>
+        <texture>$INFO[Container(120).ListItem.Property(image2)]</texture>
+      </control>
+      
+      <control type="image">
+        <description>Image : affiche les images attachées</description>
+        <posx>0</posx>
+        <posy>520</posy>
+        <width>150</width>
+        <height>100</height>
+        <texture>$INFO[Container(120).ListItem.Property(image3)]</texture>
       </control>
 
       <control type="image">
