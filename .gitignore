@@ -1,2 +1,6 @@
 *.pyc
 *.swp
+resources/lib/html2text.py.3.11
+resources/skins/Default/media/DefaultIconInfo.png
+resources/skins/Default/media/OverlayDialogBackground.png
+resources/skins/Default/media/courrier.jpg
