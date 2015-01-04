@@ -280,16 +280,14 @@ class MailWindow(xbmcgui.WindowXML):
 		#########################################################################
                 filename = part.get_filename()
 		counter = 1
-	        if not filename:
-        	    filename = 'part-%03d%s' % (counter, 'bin')
-	            counter += 1
         	att_path = os.path.join(detach_dir, filename)
-		debug(("Fichier : %s" % (att_path)))
-	        #if not os.path.isfile(att_path) :
-        	fp = open(att_path, 'wb')
-	        fp.write(part.get_payload(decode=True))
-        	fp.close()
-		debug("Fichier ECRIT")
+                pattern = re.compile('png|jpg')
+		if pattern.search(str(att_path)):
+                    debug(("Fichier : %s" % (att_path)))
+                    fp = open(att_path, 'wb')
+	            fp.write(part.get_payload(decode=True))
+                    fp.close()
+		    debug("Fichier ECRIT")
 		##########################################################################
 		debug(("ATT : %s, %s content : " % (file_att,filename)))
 		#debug(part)
