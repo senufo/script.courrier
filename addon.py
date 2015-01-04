@@ -30,6 +30,7 @@ __language__   = __addon__.getLocalizedString
 __profile__    = xbmc.translatePath( __addon__.getAddonInfo('profile') )
 __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) )
 
+__skindir__    = xbmc.getSkinDir()
 
 sys.path.append (__resource__)
 
@@ -49,7 +50,6 @@ from email.Header import decode_header
 DEBUG_LOG = __addon__.getSetting( 'debug' )
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
-DEBUG_LOG = True
 
 #Function Debug
 def debug(msg):
@@ -57,6 +57,8 @@ def debug(msg):
     print message if DEBUG_LOG == True
     """
     if DEBUG_LOG == True: print " [%s] : %s " % (__scriptid__, msg)
+
+debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (__skindir__,__profile__,__resource__) ))
 
 #Script html2text.py dans resources/lib
 from html2text import *

@@ -3,6 +3,7 @@
     <category>
        <setting id="max_msg_size" type="text" label="30117" default="10000"/>
        <setting id="search_param" type="text" label="30118" default="unseen"/>
+       <setting id="Debug" type="bool" label="Debug" default="False"/>
     </category>
     <category label="Serveur 1">
        <setting id="name1" type="text"  label="30100" default=""/>
