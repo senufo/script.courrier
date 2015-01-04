@@ -7,7 +7,8 @@ kodi script for read mail on IMAP/POP server
 #
 # Date : mercredi 30 novembre 2011, 19:14:13 (UTC+0100)
 # $Author: Senufo $
-##Modules xbmc
+
+#Modules xbmc
 import xbmc, xbmcgui
 import xbmcaddon
 import os, re
@@ -268,7 +269,8 @@ class MailWindow(xbmcgui.WindowXML):
 
         body = None
         html = None
-	detach_dir = '/home/henri/'
+	#Repertoire pour les fichiers attachés
+	detach_dir = '/tmp/'
         for part in msgobj.walk():
             content_disposition = part.get("Content-Disposition", None)
             prog = re.compile('attachment')
@@ -293,7 +295,7 @@ class MailWindow(xbmcgui.WindowXML):
 		#debug(part)
                 pattern = Pattern(r"\"(.+)\"")
                 att_file +=  str(pattern.findall(file_att))
-		#ControlImage(x, y, width, height, filename[, aspectRatio, colorDiffuse])
+		#xbmcgui.ControlImage(0, 0, 100, 100, att_path)
             if part.get_content_type() == "text/plain":
 		if body is None:
                     body = ""
@@ -342,6 +344,11 @@ class MailWindow(xbmcgui.WindowXML):
 	debug(("fichier attachés : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
+	#Verify if att_path exist
+        if 'att_path' in locals():
+           listitem.setProperty( "image_w", '200' )
+           listitem.setProperty( "image_h", '300' )
+           listitem.setProperty( "image", att_path )
         self.getControl( EMAIL_LIST ).addItem( listitem )
 
     def getImapMails(self):

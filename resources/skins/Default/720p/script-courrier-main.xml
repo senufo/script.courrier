@@ -69,6 +69,15 @@
         <align>center</align>
         <label>$INFO[Container(120).ListItem.Property(date)]</label>
       </control>
+      
+      <control type="image">
+        <description>Image : affiche les images attachées</description>
+        <posx>0</posx>
+        <posy>320</posy>
+        <width>150</width>
+        <height>100</height>
+        <texture>$INFO[Container(120).ListItem.Property(image)]</texture>
+      </control>
 
       <control type="image">
         <posx>20</posx>
