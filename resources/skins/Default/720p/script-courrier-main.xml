@@ -12,21 +12,20 @@
       <posx>0</posx>
       <posy>0</posy>
       <control type="image">
-	<description>Cadre du fond</description>
+	<description>fond</description>
         <posx>0</posx>   <!-- position du cadre -->
         <posy>0</posy>
 	<width></width> <!-- Dimension du cadre -->
         <height></height>
         <texture border="40">SKINDEFAULT.jpg</texture>
       </control>
-      <!-- ** Required ** Do not change <id> or <type> -->
         <control type="image" >
             <description>page header tab icon</description>
             <posx>20</posx>
             <posy>12</posy>
-            <width>200</width>
-            <height>82</height>
-            <texture>courrier.jpg</texture>
+            <width>105</width>
+            <height>105</height>
+            <texture>courrier.png</texture>
         </control>
 
 
@@ -96,37 +95,45 @@
         <height>100</height>
         <texture>$INFO[Container(120).ListItem.Property(image3)]</texture>
       </control>
+      <control type="image">
+        <description>Image : affiche les images attachées</description>
+        <posx>0</posx>
+        <posy>520</posy>
+        <width>150</width>
+        <height>100</height>
+        <texture>$INFO[Container(120).ListItem.Property(image4)]</texture>
+      </control>
 
       <control type="image">
-        <posx>20</posx>
+        <posx>180</posx>
         <posy>110</posy>
         <width></width>
         <height>2</height>
         <texture>GMseparator.png</texture>
       </control>
       <control type="image">
-        <posx>20</posx>
+        <posx>180</posx>
         <posy>610</posy>
         <width></width>
         <height>2</height>
         <texture>GMseparator.png</texture>
       </control>
       <control type="image">
-        <posx>20</posx>
+        <posx>180</posx>
         <posy>615</posy>
         <width></width>
         <height>2</height>
         <texture>GMseparator.png</texture>
       </control>
       <control type="image">
-        <posx>20</posx>
+        <posx>180</posx>
         <posy>665</posy>
         <width></width>
         <height>2</height>
         <texture>GMseparator.png</texture>
       </control>
       <control type="image">
-        <posx>20</posx>
+        <posx>180</posx>
         <posy>670</posy>
         <width></width>
         <height>2</height>
@@ -198,9 +205,9 @@
        </control>
        <!-- Bouton quitter -->
        <control type="button" id="1004">
-          <description>Server button control</description>
-          <posx>20</posx>
-          <posy>256</posy>
+          <description>Quit button control</description>
+          <posx>650</posx>
+          <posy>680</posy>
           <width>135</width>
           <textwidth>200</textwidth>
           <align>center</align>
@@ -334,7 +341,7 @@
         </focusedlayout>
       </control>
       <control type="group">
-        <posx>1155</posx>
+        <posx>175</posx>
         <posy>126</posy>
         <control type="scrollbar" id="121">
           <description>scroll bar indicator for lists</description>
