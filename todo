@@ -1,12 +1,4 @@
-- adapt language settings : 
-	3.7.2 resources/language/
-	Translation tools:
-
-	Language support
-	Translation System
-	Convert .xml to .po: xbmc-xml2po
-	Check for .po files: xbmc-checkpo
-	Utility for keeping XBMC upstream language files and the language files hosted on transifex.com in sync: xbmc-txupdate
+- verify and fix ID settings : 
 
 	String ID range:
 
