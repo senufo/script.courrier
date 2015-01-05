@@ -103,3 +103,7 @@ msgstr "Taille maximum du message"
 msgctxt "#30118"
 msgid "Filter search messages IMAP"
 msgstr "Filtre de recherche des messages IMAP"
+
+msgctxt "#30119"
+msgid "Background file"
+msgstr "Image de fond du skin"

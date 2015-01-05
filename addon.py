@@ -103,6 +103,11 @@ QUIT         = 1004
 FILE_ATT     = 1005
 MAX_SIZE_MSG = int(Addon.getSetting( 'max_msg_size' ))
 SEARCH_PARAM = Addon.getSetting( 'search_param' )
+BACKGROUND   = Addon.getSetting( 'background' )
+
+#Test if BACKGROUND is defined
+if not BACKGROUND :
+    BACKGROUND = 'SKINDEFAULT.jpg'
 
 class MailWindow(xbmcgui.WindowXML):
     """
@@ -355,6 +360,10 @@ class MailWindow(xbmcgui.WindowXML):
 	      counter += 1 
               debug(('image%s, IMAGE : %s ' % (counter,name_image)))
               listitem.setProperty( ('image%s' % counter), name_image )
+    
+        #Add the background
+        listitem.setProperty( 'background', BACKGROUND )
+         
         self.getControl( EMAIL_LIST ).addItem( listitem )
 
     def getImapMails(self):

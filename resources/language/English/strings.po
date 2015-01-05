@@ -103,3 +103,7 @@ msgstr ""
 msgctxt "#30118"
 msgid "Filter search messages IMAP"
 msgstr ""
+
+msgctxt "#30119"
+msgid "Background file"
+msgstr ""

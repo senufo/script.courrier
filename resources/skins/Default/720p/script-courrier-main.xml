@@ -17,7 +17,7 @@
         <posy>0</posy>
 	<width></width> <!-- Dimension du cadre -->
         <height></height>
-        <texture border="40">SKINDEFAULT.jpg</texture>
+        <texture border="40">$INFO[Container(120).ListItem.Property(background)]</texture>
       </control>
         <control type="image" >
             <description>page header tab icon</description>
