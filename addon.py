@@ -60,18 +60,18 @@ def debug(msg):
 
 debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (__skindir__,__profile__,__resource__) ))
 
-#Script html2text.py dans resources/lib
+#Script html2text.py in resources/lib
 from html2text import *
-#Utilise le fichier de configuration de service notifier si il existe
+#Use configuration file if exist notifier service
 #try:
 #    Addon = xbmcaddon.Addon('service.notifier')
-    #On vérifie que le fichier de configuration existe
-    #si il n'existe pas on charge le fichier de config de mail
+    #Verify file configuration exist
+    #if not load file config courrier
 #    if not (Addon.getSetting( 'name1' )):
 #        Addon = xbmcaddon.Addon(__addon__)
 #except:
 Addon = xbmcaddon.Addon(__scriptid__)
-#Pour les messages traduit on utilise ceux de script.mail
+#Load msg translate script.mail
 Addon_traduc = xbmcaddon.Addon(__scriptid__)
 #get actioncodes from keymap.xml/ keys.h
 ACTION_PREVIOUS_MENU = 10
@@ -89,7 +89,7 @@ ACTION_VOLUME_DOWN     =   89
 ACTION_REWIND          =   78
 ACTION_FASTFORWARD     =   77
 
-#ID des boutons dans script-mail-main.xml
+#Buttons ID in script-courrier-main.xml
 STATUS_LABEL = 100
 NX_MAIL      = 101
 MSG_BODY     = 102
@@ -110,7 +110,7 @@ class MailWindow(xbmcgui.WindowXML):
     """
     def __init__(self, *args, **kwargs):
 
-        #variable pour position dans le msg
+        #variable for position in the msg
         self.position = 0
 
     def onInit( self ):
@@ -131,8 +131,8 @@ class MailWindow(xbmcgui.WindowXML):
 
 
 
-#Verifie les mails et affiche les sujets et expediteurs
-#Alias etant le nom du serveur POP ou IMAP
+#Verify mails and display subjects and expeditors
+#Alias is name server POP or IMAP
     def checkEmail(self, alias):
         """
         Check mail on POP or IMAP server
@@ -140,7 +140,7 @@ class MailWindow(xbmcgui.WindowXML):
         #debug( 'ALIAS = %s ' % alias )
         self.getControl( STATUS_LABEL ).setLabel( '%s ...' % alias )
 
-        #Vide la liste des sudjet des messages
+        #Empty the list of subject messages
         #self.listControl.reset()
         self.USER = ''
         self.NOM = ''
@@ -150,6 +150,7 @@ class MailWindow(xbmcgui.WindowXML):
         self.SSL = ''
         self.TYPE = ''
         self.FOLDER = ''
+        #Get list of the 3 servers in settings.xml
         for i in [1, 2, 3]:
             NOM = Addon.getSetting( 'name%i' % i )
             USER = Addon.getSetting( 'user%i' % i )
@@ -160,7 +161,7 @@ class MailWindow(xbmcgui.WindowXML):
             SSL = Addon.getSetting( 'ssl%i' % i ) == "true"
             TYPE = Addon.getSetting( 'type%i' % i )
             FOLDER = Addon.getSetting( 'folder%i' % i )
-            #On cherche le serveur selectionne
+            #Search selected server
             if (alias == NOM):
                 self.NOM = NOM
                 self.SERVER = SERVER
@@ -171,8 +172,8 @@ class MailWindow(xbmcgui.WindowXML):
                 self.SSL = SSL
                 self.FOLDER = FOLDER
                 try:
-                    #Partie POP3
-                    if '0' in self.TYPE:  #'POP'
+                    #Select server type
+                    if '0' in self.TYPE:  #POP3
                         self.getPopMails()
                     if '1' in self.TYPE: #IMAP
                         self.getImapMails()
@@ -200,7 +201,7 @@ class MailWindow(xbmcgui.WindowXML):
         numEmails = mail.stat()[0]
 
         debug( "You have", numEmails, "emails" )
-        #Affiche le nombre de msg
+        #Display the number of msg
         self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
         dialog.close()
         if numEmails == 0:
@@ -212,17 +213,17 @@ class MailWindow(xbmcgui.WindowXML):
                                 #emails
             dialog.create(Addon_traduc.getLocalizedString(id=613),
                 Addon_traduc.getLocalizedString(id=615) + str(numEmails) + Addon_traduc.getLocalizedString(id=616))
-            ##Retrieve list of mails
+            #Retrieve list of mails
             resp, items, octets = mail.list()
             debug( "resp %s, %s " % (resp, items))
             dialog.close()
-            #On recupere tous les messages pour les afficher
+            #Get all messages for display
             progressDialog = xbmcgui.DialogProgress()
                               #Message(s)                       #Get mail
             progressDialog.create(Addon_traduc.getLocalizedString(id=617),
                                   Addon_traduc.getLocalizedString(id=618))
             i = 0
-            #Mise a zero de la ListBox msg
+            #Reset ListBox msg
             self.getControl( EMAIL_LIST ).reset()
             self.emails = []
             for item in items:
@@ -233,7 +234,7 @@ class MailWindow(xbmcgui.WindowXML):
                                       Addon_traduc.getLocalizedString(id=618),
                                       Addon_traduc.getLocalizedString(id=619))
 
-                #Si dépasse la taille max on télécharge que 50 lignes
+                #If the maximum size is exceeded doxnload only 50 lines
                 if (MAX_SIZE_MSG == 0) or (size < MAX_SIZE_MSG):
                     resp, text, octets = mail.retr(id)
                 else:
@@ -242,7 +243,7 @@ class MailWindow(xbmcgui.WindowXML):
                 text = string.join(text, "\n")
                 self.processMails(text, att_file)
             progressDialog.close()
-            #Affiche le 1er mail de la liste
+            #Display the first mail of the list
             self.getControl( EMAIL_LIST ).selectItem(0)
 
     def processMails(self, text, att_file):
@@ -271,14 +272,14 @@ class MailWindow(xbmcgui.WindowXML):
 
         body = None
         html = None
-	#Repertoire pour les fichiers attachés
+	#Repertory for attached file(s)
 	detach_dir = '/tmp/'
         counter = -1 
 	attached_images = []
         for part in msgobj.walk():
             content_disposition = part.get("Content-Disposition", None)
             prog = re.compile('attachment')
-            #Retrouve le nom des fichiers attaches
+            #Retrieve attached files names 
             if prog.search(str(content_disposition)):
                 file_att = str(content_disposition)
 		#########################################################################
@@ -287,7 +288,7 @@ class MailWindow(xbmcgui.WindowXML):
         	att_path = os.path.join(detach_dir, filename)
                 pattern = re.compile('png|jpg')
 		if pattern.search(str(att_path)):
-                    debug(("Fichier : %s" % (att_path)))
+                    debug(("File : %s" % (att_path)))
                     fp = open(att_path, 'wb')
 	            fp.write(part.get_payload(decode=True))
                     fp.close()
@@ -302,7 +303,7 @@ class MailWindow(xbmcgui.WindowXML):
 		if body is None:
                     body = ""
                 try :
-                    #Si pas de charset défini
+                    #If no defined charset
                     if (part.get_content_charset() is None):
                         body +=  part.get_payload(decode=True)
                     else:
@@ -337,13 +338,13 @@ class MailWindow(xbmcgui.WindowXML):
                 description = str(html)
             except Exception, e:
                 debug( str(e) )
-        #Nb de lignes du msg pour permettre le scroll text
+        #Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
 
         listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
         listitem.setProperty( "realname", realname )
         date += att_file
-	debug(("fichier attachés : %s" % att_file))
+	debug(("attached files : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
 	#Verify if att_path exist
@@ -363,7 +364,7 @@ class MailWindow(xbmcgui.WindowXML):
         dialog = xbmcgui.DialogProgress()
         dialog.create(Addon_traduc.getLocalizedString(id=614),
                       Addon_traduc.getLocalizedString(id=610))#Inbox,Logging in
-        #Mise a zero de la ListBox msg
+        #Reset ListBox msg
         #self.getControl( EMAIL_LIST ).reset()
         self.emails = []
         try:
@@ -379,7 +380,7 @@ class MailWindow(xbmcgui.WindowXML):
             #numEmails = len(imap.search(None, 'ALL')[1][0].split())
             numEmails = len(imap.search(None, SEARCH_PARAM )[1][0].split())
             debug( ("You have %d emails IMAP" % numEmails) )
-            #Affiche le nombre de msg
+            #Display number of msg
             self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
             dialog.close()
             if numEmails == 0:
@@ -408,7 +409,7 @@ class MailWindow(xbmcgui.WindowXML):
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
-            #Affiche le 1er mail de la liste
+            #Display first mail of the list
             self.getControl( EMAIL_LIST ).selectItem(0)
             imap.logout
         except Exception, e:
