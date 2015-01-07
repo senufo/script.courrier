@@ -12,7 +12,7 @@ kodi script for read mail on IMAP/POP server
 import xbmc, xbmcgui
 import xbmcaddon
 import os, re
-from BeautifulSoup import *
+#from BeautifulSoup import *
 
 #import BeautifulSoup
 from re import compile as Pattern
@@ -274,7 +274,7 @@ class MailWindow(xbmcgui.WindowXML):
             date = '--'
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
-        print "SUJET : %s " % Sujet
+        debug "SUJET : %s " % Sujet
         body = None
         html = None
 	#Repertory for attached file(s)
@@ -317,26 +317,19 @@ class MailWindow(xbmcgui.WindowXML):
                            part.get_content_charset(),
                            'replace'
                            ).encode('utf8','replace')
-                    print "BODY 320 %s " % body
                 except Exception, e:
-                    body += "Erreur unicode"
-                    print( "BODY = %s " % body)
+                    body += "Erreur unicode : %s" % e
+                    debug( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
                 if html is None:
                     html = ""
                 try :
-                    print "PART PAYLOAD %s " % part.get_payload(decode=True)
 		    raw_html = 	part.get_payload(decode=True)
-                    unicode_coded_entities_html = unicode(BeautifulStoneSoup(raw_html,
-                            convertEntities=BeautifulStoneSoup.HTML_ENTITIES))
-                    print 'unicode_coded : %s ' % unicode_coded_entities_html
-                    html += unicode_coded_entities_html
-                    #print( "==> HTML avant html2text = %s <==" % html )
-                    html = html2text(html)
+                    html = html2text(raw_html)
+
                 except Exception, e:
-                    html += "Erreur unicode html"
-                    print( "ERROR HTML = %s, %s " % (html,str(e)))
-                #print( "==> HTML = %s <==" % html )
+                    #html += "Erreur unicode html"
+                    debug( "ERROR HTML = %s " % (str(e)))
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
@@ -410,6 +403,7 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
+                #typ, data = imap.search(None, '(FROM "NOTILUS")')
                 #typ, data = imap.search(None, 'UnSeen')
                 #typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
