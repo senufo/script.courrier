@@ -274,7 +274,7 @@ class MailWindow(xbmcgui.WindowXML):
             date = '--'
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
-
+        print "SUJET : %s " % Sujet
         body = None
         html = None
 	#Repertory for attached file(s)
@@ -317,21 +317,26 @@ class MailWindow(xbmcgui.WindowXML):
                            part.get_content_charset(),
                            'replace'
                            ).encode('utf8','replace')
+                    print "BODY 320 %s " % body
                 except Exception, e:
                     body += "Erreur unicode"
-                    debug( "BODY = %s " % body)
+                    print( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
                 if html is None:
                     html = ""
                 try :
-                    unicode_coded_entities_html = unicode(BeautifulStoneSoup(html,
+                    print "PART PAYLOAD %s " % part.get_payload(decode=True)
+		    raw_html = 	part.get_payload(decode=True)
+                    unicode_coded_entities_html = unicode(BeautifulStoneSoup(raw_html,
                             convertEntities=BeautifulStoneSoup.HTML_ENTITIES))
-
+                    print 'unicode_coded : %s ' % unicode_coded_entities_html
                     html += unicode_coded_entities_html
+                    #print( "==> HTML avant html2text = %s <==" % html )
                     html = html2text(html)
                 except Exception, e:
                     html += "Erreur unicode html"
-                    #debug( "HTML = %s " % html )
+                    print( "ERROR HTML = %s, %s " % (html,str(e)))
+                #print( "==> HTML = %s <==" % html )
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
