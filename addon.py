@@ -274,7 +274,7 @@ class MailWindow(xbmcgui.WindowXML):
             date = '--'
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
-        debug "SUJET : %s " % Sujet
+        debug (("SUJET : %s " % Sujet))
         body = None
         html = None
 	#Repertory for attached file(s)
@@ -324,12 +324,29 @@ class MailWindow(xbmcgui.WindowXML):
                 if html is None:
                     html = ""
                 try :
-		    raw_html = 	part.get_payload(decode=True)
-                    html = html2text(raw_html)
+                    #Test to try fix error unicode 
+                    #'ascii' codec can't decode byte 0xc5 in position 32: ordinal not in range(128)
+		    print ("CHARSET = %s " % part.get_content_charset())
+                    if (part.get_content_charset() is None):
+                        raw_html = part.get_payload(decode=True)
+                        #raw_html.upper()
+                        #raw_html = raw_html.encode('utf-8','replace')
+                        print("RAW_HTML 334")
+                        html = html2text(raw_html)
+                    else:
+                        raw_html = unicode(
+                           part.get_payload(decode=True),
+                           part.get_content_charset(),
+                           'ignore'
+                           ).encode('utf8','replace')
+                        print("RAW_HTML 337")
+                        html = html2text(raw_html,'utf-8')
 
                 except Exception, e:
                     #html += "Erreur unicode html"
-                    debug( "ERROR HTML = %s " % (str(e)))
+                    print( "ERROR HTML = %s " % (str(e)))
+                    print( "ERROR HTML =============================  ")
+                    
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
@@ -403,7 +420,7 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
-                #typ, data = imap.search(None, '(FROM "NOTILUS")')
+                #typ, data = imap.search(None, '(FROM "samsung.com")')
                 #typ, data = imap.search(None, 'UnSeen')
                 #typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
