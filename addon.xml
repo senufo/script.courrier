@@ -27,18 +27,16 @@ if you have installed service.notfier the script.mail use configuration settings
     </description>
 
     <description lang="fr">
-Courrier is a script for read mail on POP or IMAP servers.
-
-Based on the script and the skin of gmailchecker
-
-Configure server in settings
-You can define the max size of messages and a filter to search messages in IMAP server
-The text of your message scrolls automatically
-
-At the moment you view message only in text mode and html message are convert in text with Beautilfulsoup and html2text "Aaron Swartz (me@aaronsw.com)" modules.
-On bottom you have status line with date and attach file name of the selected message
-For IMAP server you can define in SKIN your folder and the flag use for select message
-if you have installed service.notfier the script.mail use configuration settings of service.notifier
+Courrier est un script pour lire son courrier sur des serveurs POP ou IMAP.
+Basé sur le script et le skin de gmailchecker
+Configurer le serveur dans le sparamètres
+Vous pouvez définir la taille maximale des messages et un filtre pour rechercher des messages dans le serveur IMAP
+Le texte de vos messages défile automatiquement
+ 
+Pour le moment le message est affiché en mode texte et le message html est converti en texte avec html2text "Aaron Swartz (me@aaronsw.com)"
+Au maximum 3 vignettes d'images attachées peuvent être affichées 
+En bas vous avez la ligne d'état avec la date et le(s) nom(s) de(s) fichier(s) attaché(s) du message sélectionné
+Pour le serveur IMAP vous pouvez définir votre dossier et l'utilisation d'un filtre pour sélectionner les messages
     </description>
     <platform>all</platform>
     <source>https://github.com/senufo/plugin.program.courrier</source>
