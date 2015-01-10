@@ -7,13 +7,13 @@
        <setting id="Debug" type="bool" label="Debug" default="False"/>
     </category>
     <category label="HTML2TEXT">
-       <setting id="UNICODE_SNOB" type="text"  label="30120" default="0"/>
-       <setting id="EXCAPE_SNOB" type="text"  label="30121" default="0"/>
-       <setting id="LINKS_EACH_PARAGRAPH" type="text" label="30122" default="0"/>
-       <setting id="BODY_WIDTH" type="text" label="30123" default="78"/>
+       <setting id="UNICODE_SNOB" type="number"  label="30120" default="0"/>
+       <setting id="ESCAPE_SNOB" type="number"  label="30121" default="0"/>
+       <setting id="LINKS_EACH_PARAGRAPH" type="number" label="30122" default="0"/>
+       <setting id="BODY_WIDTH" type="number" label="30123" default="78"/>
        <setting id="SKIP_INTERNAL_LINKS" type="bool" label="30124" default="True"/>
        <setting id="INLINE_LINKS" type="bool" label="30125" default="True"/>
-       <setting id="GOOGLE_LIST_INDENT" type="text" label="30126" default="36"/>
+       <setting id="GOOGLE_LIST_INDENT" type="number" label="30126" default="36"/>
        <setting id="IGNORE_ANCHORS" type="bool" label="30127"  default="False"/>
        <setting id="IGNORE_IMAGES" type="bool" label="30128"  default="True"/>
        <setting id="IGNORE_EMPHASIS" type="bool" label="30129"  default="False"/>
