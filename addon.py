@@ -309,6 +309,7 @@ class MailWindow(xbmcgui.WindowXML):
             if part.get_content_type() == "text/plain":
 		if body is None:
                     body = ""
+                    print("BODY DEFINE")
                 try :
                     #If no defined charset
                     if (part.get_content_charset() is None):
@@ -363,7 +364,10 @@ class MailWindow(xbmcgui.WindowXML):
 		        print ("CHARSET 353 = %s " % part.get_content_charset())
                         try:
                           html = raw_html.decode(charset_msg)
+                          print("367")
                           html = h.handle(html)
+                          print("368")
+                          #print("HTML = %s" % html)
                           #html = html2text(html)
                         except Exception, e:
                           print ("HTML error : %s\n" % e)
@@ -377,13 +381,26 @@ class MailWindow(xbmcgui.WindowXML):
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
+        print("383 : %s" % body)
+        #Si text/plain Body is define 
         if (body):
-            description = str(body)
-        else:
+            print("385")
             try:
-                html = html.encode('ascii','replace')
-                description = str(html)
+               print("387")
+               description += str(body)
+               print("389")
             except Exception, e:
+               print ("Error 389 : %s " % e)
+               description = body
+        #Si text/html html is define 
+        if (html):
+            print("394")
+            try:
+                print("396")
+                html = html.encode('ascii','replace')
+                description += str(html)
+            except Exception, e:
+                print("DESC error : %s" % str(e) )
                 debug( str(e) )
         #Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
