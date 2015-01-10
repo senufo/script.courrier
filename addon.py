@@ -371,6 +371,7 @@ class MailWindow(xbmcgui.WindowXML):
         #Si text/plain Body is define 
         if (body):
             try:
+               print("374")
                description += str(body)
             except Exception, e:
                print ("Error 389 : %s " % e)
@@ -378,8 +379,12 @@ class MailWindow(xbmcgui.WindowXML):
         #Si text/html html is define 
         if (html):
             try:
-                html = html.encode('ascii','replace')
-                description += str(html)
+                print('381 charset : %s ' % charset_msg)
+                print('descri %s' % description)
+                #html = html.encode('ascii','replace')
+                #print('383 : %s' % html)
+                #description += str(html)
+                description = html.encode('utf-8','replace')
             except Exception, e:
                 print("DESC error : %s" % str(e) )
                 debug( str(e) )
@@ -392,6 +397,7 @@ class MailWindow(xbmcgui.WindowXML):
 	debug(("attached files : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
+        #listitem.setProperty( "message", html )
 	#Verify if att_path exist
         if 'attached_images' in locals():
            counter = 0
@@ -445,6 +451,8 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
+                #typ, data = imap.search(None, '(FROM "samsung")')
+                #typ, data = imap.search(None, '(FROM "notify")')
                 #typ, data = imap.search(None, '(FROM "vmle-rts")')
                 #typ, data = imap.search(None, 'UnSeen')
                 #typ, data = imap.search(None, 'ALL')
