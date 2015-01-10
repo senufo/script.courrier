@@ -50,6 +50,37 @@ DEBUG_LOG = __addon__.getSetting( 'debug' )
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
 
+#UNICODE_SNOB=0
+UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )
+#ESCAPE_SNOB=0
+ESCAPE_SNOB = __addon__.getSetting( 'ESCAPE_SNOB' )
+#LINKS_EACH_PARAGRAPH=0
+LINKS_EACH_PARAGRAPH = __addon__.getSetting( 'LINKS_EACH_PARAGRAPH' )
+#BODY_WIDTH=78
+BODY_WIDTH = __addon__.getSetting( 'BODY_WIDTH' )
+#SKIP_INTERNAL_LINKS=True
+SKIP_INTERNAL_LINKS = __addon__.getSetting( 'SKIP_INTERNAL_LINKS' )
+if 'true' in SKIP_INTERNAL_LINKS : SKIP_INTERNAL_LINKS = True
+else: SKIP_INTERNAL_LINKS = False
+#INLINE_LINKS=True
+INLINE_LINKS = __addon__.getSetting( 'INLINE_LINKS' )
+if 'true' in INLINE_LINKS : INLINE_LINKS = True
+else: INLINE_LINKS = False
+#GOOGLE_LIST_INDENT=36
+GOOGLE_LIST_INDENT = __addon__.getSetting( 'GOOGLE_LIST_INDENT' )
+#IGNORE_ANCHORS=False
+IGNORE_ANCHORS = __addon__.getSetting( 'IGNORE_ANCHORS' )
+if 'true' in IGNORE_ANCHORS : IGNORE_ANCHORS = True
+else: IGNORE_ANCHORS = False
+#IGNORE_IMAGES=True
+IGNORE_IMAGES = __addon__.getSetting( 'IGNORE_IMAGES' )
+if 'true' in IGNORE_IMAGES : IGNORE_IMAGES = True
+else: IGNORE_IMAGES = False
+#IGNORE_EMPHASIS=False   
+IGNORE_EMPHASIS = __addon__.getSetting( 'IGNORE_EMPHASIS' )
+if 'true' in IGNORE_EMPHASIS : IGNORE_EMPHASIS = True
+else: IGNORE_EMPHASIS = False
+
 #Function Debug
 def debug(msg):
     """
@@ -324,18 +355,19 @@ class MailWindow(xbmcgui.WindowXML):
                     body += "Erreur unicode : %s" % e
                     debug( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
-                #Define defaults parameters for htlm2text object
+                #Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
-                h.unicode_snob = 0           #UNICODE_SNOB=0
-                h.escape_snob = 0            #ESCAPE_SNOB=0
-                h.links_each_paragraph = 0   #LINKS_EACH_PARAGRAPH=0
-                h.body_width = 78            #BODY_WIDTH=78
-                h.skip_internal_links = True #SKIP_INTERNAL_LINKS=True
-                h.inline_links = False       #INLINE_LINKS=True
-                h.google_list_indent = 36    #GOOGLE_LIST_INDENT=36
-                h.ignore_links = True        #IGNORE_ANCHORS=False
-                h.ignore_images = True       #IGNORE_IMAGES=True
-                h.ignore_emphasis = False    #IGNORE_EMPHASIS=False
+                h.unicode_snob = int(UNICODE_SNOB)                  #UNICODE_SNOB=0
+                h.escape_snob = int(ESCAPE_SNOB)                    #ESCAPE_SNOB=0
+                h.links_each_paragraph = int(LINKS_EACH_PARAGRAPH)  #LINKS_EACH_PARAGRAPH=0
+                h.body_width = int(BODY_WIDTH)                      #BODY_WIDTH=78
+                h.skip_internal_links = bool(SKIP_INTERNAL_LINKS)   #SKIP_INTERNAL_LINKS=True
+                h.inline_links = bool(INLINE_LINKS)                 #INLINE_LINKS=True
+                h.google_list_indent = int(GOOGLE_LIST_INDENT)      #GOOGLE_LIST_INDENT=36
+                h.ignore_links = bool(IGNORE_ANCHORS)               #IGNORE_ANCHORS=False
+                h.ignore_images = bool(IGNORE_IMAGES)               #IGNORE_IMAGES=True
+                h.ignore_emphasis = bool(IGNORE_EMPHASIS)           #IGNORE_EMPHASIS=False     
+
                 if html is None:
                     html = ""
                 try :
