@@ -215,7 +215,7 @@ class MailWindow(xbmcgui.WindowXML):
                     if '1' in self.TYPE: #IMAP
                         self.getImapMails()
                 except Exception, e:
-                    debug( str( e ) )
+                    debug( ('Error Server Type : %s' % str( e ) ) )
                     dialog = xbmcgui.DialogProgress()
                     dialog.create(Addon_traduc.getLocalizedString(id=614),
                           Addon_traduc.getLocalizedString(id=620) % self.SERVER)
@@ -353,7 +353,7 @@ class MailWindow(xbmcgui.WindowXML):
                            ).encode('utf8','replace')
                 except Exception, e:
                     body += "Erreur unicode : %s" % e
-                    debug( "BODY = %s " % body)
+                    debug( ("BODY = %s " % body))
             elif part.get_content_type() == "text/html":
                 #Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
@@ -373,31 +373,31 @@ class MailWindow(xbmcgui.WindowXML):
                 try :
                     #Test to try fix error unicode 
                     #'ascii' codec can't decode byte 0xc5 in position 32: ordinal not in range(128)
-		    #print ("CHARSET = %s " % part.get_content_charset())
+		    #debug ("CHARSET = %s " % part.get_content_charset())
                     if (part.get_content_charset() is None):
                         raw_html = part.get_payload(decode=True)
                         try:
                           html = h.handle(raw_html)
                         #Try to fix error unicode if no charset defined
                         except Exception, e:
-		          print ("Error : %s, CHARSET = %s " % (e,part.get_content_charset()))
+		          debug (("Error : %s, CHARSET = %s " % (e,part.get_content_charset())))
                           raw_html = raw_html.decode('utf-8','replace')
                           html = h.handle(raw_html)
-                          print("RAW_HTML None OK")
+                          debug("RAW_HTML None OK")
                     else:
                         #Decode in UTF-8 with kown charset
                         raw_html = part.get_payload(decode=True)
                         charset_msg = part.get_content_charset()
-		        print ("CHARSET 353 = %s " % part.get_content_charset())
+		        debug (("CHARSET text/html = %s " % part.get_content_charset()))
                         try:
                           html = raw_html.decode(charset_msg)
                           html = h.handle(html)
                         except Exception, e:
-                          print ("HTML error : %s\n" % e)
+                          debug (("HTML error : %s\n" % e))
                           #html = htlm2text(raw_html)
-                          print ("HTML OK : %s\n" % html)
+                          debug (("HTML OK : %s\n" % html))
                 except Exception, e:
-                    print( "ERROR HTML = %s , %s" % (str(e),charset_msg))
+                    debug( ("ERROR HTML = %s , %s" % (str(e),charset_msg)))
                     
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
@@ -405,20 +405,16 @@ class MailWindow(xbmcgui.WindowXML):
         #Si text/plain Body is define 
         if (body):
             try:
-               print("374")
-               #description += str(body)
                description += body.encode('utf-8','replace')
             except Exception, e:
-               print ("Error 389 : %s " % e)
-               #description = body
+               debug (("Error Body text/plain : %s " % e))
         #Si text/html html is define 
         if (html):
             try:
-                print('381 charset : %s ' % charset_msg)
+                debug('Charset : %s ' % charset_msg)
                 description = html.encode('utf-8','replace')
             except Exception, e:
-                print("DESC error : %s" % str(e) )
-                debug( str(e) )
+                debug("DESC error : %s" % str(e) )
         #Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
 
@@ -501,9 +497,7 @@ class MailWindow(xbmcgui.WindowXML):
             self.getControl( EMAIL_LIST ).selectItem(0)
             imap.logout
         except Exception, e:
-            debug( 'IMAP exception' )
-            debug( str( e ) )
-            debug( 'IMAP exception' )
+            debug( ('IMAP exception : %s' % str( e )) )
 
 
     def onAction(self, action):
