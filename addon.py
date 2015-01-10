@@ -61,7 +61,9 @@ def debug(msg):
 debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (__skindir__,__profile__,__resource__) ))
 
 #Script html2text.py in resources/lib
-from html2text import *
+#from html2text import *
+import html2text
+
 #Use configuration file if exist notifier service
 #try:
 #    Addon = xbmcaddon.Addon('service.notifier')
@@ -321,30 +323,55 @@ class MailWindow(xbmcgui.WindowXML):
                     body += "Erreur unicode : %s" % e
                     debug( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
+                #Define defaults parameter for htlm2text object
+                h = html2text.HTML2Text()
+                h.ignore_links = True
+                h.ignore_image = True
+                h.inline_links = False
+                #print h.handle("<p>Hello, <a href='http://earth.google.com/'>world</a>!")
                 if html is None:
                     html = ""
                 try :
                     #Test to try fix error unicode 
                     #'ascii' codec can't decode byte 0xc5 in position 32: ordinal not in range(128)
-		    print ("CHARSET = %s " % part.get_content_charset())
+		    #print ("CHARSET = %s " % part.get_content_charset())
                     if (part.get_content_charset() is None):
                         raw_html = part.get_payload(decode=True)
-                        #raw_html.upper()
-                        #raw_html = raw_html.encode('utf-8','replace')
-                        print("RAW_HTML 334")
-                        html = html2text(raw_html)
+                        #print("RAW_HTML 334")
+                        try:
+                          #html = html2text(raw_html)
+                          html = h.handle(raw_html)
+                        #Try to fix error unicode if no charset defined
+                        except Exception, e:
+                          print ("Error 130 : %s" % e)
+		          print ("CHARSET = %s " % part.get_content_charset())
+                          raw_html = raw_html.decode('utf-8','replace')
+                          html = h.handle(raw_html)
+                          #html = html2text(raw_html)
+                          print("RAW_HTML None OK")
                     else:
-                        raw_html = unicode(
-                           part.get_payload(decode=True),
-                           part.get_content_charset(),
-                           'ignore'
-                           ).encode('utf8','replace')
-                        print("RAW_HTML 337")
-                        html = html2text(raw_html,'utf-8')
+                        #raw_html = unicode(
+                        #   part.get_payload(decode=True),
+                        #   part.get_content_charset(),
+                        #   'ignore'
+                        #   ).encode('utf8','replace')
+                        #print("RAW_HTML 337")
+                        #html = html2text(raw_html,'utf-8')
 
+                        raw_html = part.get_payload(decode=True)
+                        charset_msg = part.get_content_charset()
+		        print ("CHARSET 353 = %s " % part.get_content_charset())
+                        try:
+                          html = raw_html.decode(charset_msg)
+                          html = h.handle(html)
+                          #html = html2text(html)
+                        except Exception, e:
+                          print ("HTML error : %s\n" % e)
+                          html = htlm2text(raw_html)
+                          print ("HTML OK : %s\n" % html)
                 except Exception, e:
                     #html += "Erreur unicode html"
-                    print( "ERROR HTML = %s " % (str(e)))
+                    print( "ERROR HTML = %s , %s" % (str(e),charset_msg))
                     print( "ERROR HTML =============================  ")
                     
             realname = parseaddr(msgobj.get('From'))[1]
@@ -420,7 +447,7 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
-                #typ, data = imap.search(None, '(FROM "samsung.com")')
+                #typ, data = imap.search(None, '(FROM "vmle-rts")')
                 #typ, data = imap.search(None, 'UnSeen')
                 #typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
