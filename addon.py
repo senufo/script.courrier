@@ -263,6 +263,7 @@ class MailWindow(xbmcgui.WindowXML):
             decodefrag = decode_header(msgobj['Subject'])
             subj_fragments = []
             for s , enc in decodefrag:
+                #Encode subject in UTF-8
                 if enc:
                     s = unicode(s , enc).encode('utf8','replace')
                 subj_fragments.append(s)
@@ -301,18 +302,19 @@ class MailWindow(xbmcgui.WindowXML):
                     attached_images.append(att_path)
 		    debug(("ATTACHED :%s" % attached_images))
 		##########################################################################
-		#debug(("ATT : %s" % (file_att)))
-		#debug(part)
                 pattern = Pattern(r"\"(.+)\"")
                 att_file +=  str(pattern.findall(file_att))
+            #Treat text/plain msg
             if part.get_content_type() == "text/plain":
 		if body is None:
                     body = ""
                 try :
                     #If no defined charset
                     if (part.get_content_charset() is None):
-                        body +=  part.get_payload(decode=True)
+                        #Decode charset and encode in UTF-8
+                        body +=  unicode(part.get_payload(decode=True)).encode('utf8','replace')
                     else:
+                        #Decode charset and encode in UTF-8
                         body += unicode(
                            part.get_payload(decode=True),
                            part.get_content_charset(),
@@ -322,11 +324,18 @@ class MailWindow(xbmcgui.WindowXML):
                     body += "Erreur unicode : %s" % e
                     debug( "BODY = %s " % body)
             elif part.get_content_type() == "text/html":
-                #Define defaults parameter for htlm2text object
+                #Define defaults parameters for htlm2text object
                 h = html2text.HTML2Text()
-                h.ignore_links = True
-                h.ignore_image = True
-                h.inline_links = False
+                h.unicode_snob = 0           #UNICODE_SNOB=0
+                h.escape_snob = 0            #ESCAPE_SNOB=0
+                h.links_each_paragraph = 0   #LINKS_EACH_PARAGRAPH=0
+                h.body_width = 78            #BODY_WIDTH=78
+                h.skip_internal_links = True #SKIP_INTERNAL_LINKS=True
+                h.inline_links = False       #INLINE_LINKS=True
+                h.google_list_indent = 36    #GOOGLE_LIST_INDENT=36
+                h.ignore_links = True        #IGNORE_ANCHORS=False
+                h.ignore_images = True       #IGNORE_IMAGES=True
+                h.ignore_emphasis = False    #IGNORE_EMPHASIS=False
                 if html is None:
                     html = ""
                 try :
@@ -344,14 +353,7 @@ class MailWindow(xbmcgui.WindowXML):
                           html = h.handle(raw_html)
                           print("RAW_HTML None OK")
                     else:
-                        #raw_html = unicode(
-                        #   part.get_payload(decode=True),
-                        #   part.get_content_charset(),
-                        #   'ignore'
-                        #   ).encode('utf8','replace')
-                        #print("RAW_HTML 337")
-                        #html = html2text(raw_html,'utf-8')
-
+                        #Decode in UTF-8 with kown charset
                         raw_html = part.get_payload(decode=True)
                         charset_msg = part.get_content_charset()
 		        print ("CHARSET 353 = %s " % part.get_content_charset())
@@ -360,7 +362,7 @@ class MailWindow(xbmcgui.WindowXML):
                           html = h.handle(html)
                         except Exception, e:
                           print ("HTML error : %s\n" % e)
-                          html = htlm2text(raw_html)
+                          #html = htlm2text(raw_html)
                           print ("HTML OK : %s\n" % html)
                 except Exception, e:
                     print( "ERROR HTML = %s , %s" % (str(e),charset_msg))
@@ -372,18 +374,15 @@ class MailWindow(xbmcgui.WindowXML):
         if (body):
             try:
                print("374")
-               description += str(body)
+               #description += str(body)
+               description += body.encode('utf-8','replace')
             except Exception, e:
                print ("Error 389 : %s " % e)
-               description = body
+               #description = body
         #Si text/html html is define 
         if (html):
             try:
                 print('381 charset : %s ' % charset_msg)
-                print('descri %s' % description)
-                #html = html.encode('ascii','replace')
-                #print('383 : %s' % html)
-                #description += str(html)
                 description = html.encode('utf-8','replace')
             except Exception, e:
                 print("DESC error : %s" % str(e) )
@@ -392,12 +391,11 @@ class MailWindow(xbmcgui.WindowXML):
         self.nb_lignes = description.count("\n")
 
         listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
-        listitem.setProperty( "realname", realname )
+        listitem.setProperty( "realname", realname)
         date += att_file
 	debug(("attached files : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "message", description )
-        #listitem.setProperty( "message", html )
 	#Verify if att_path exist
         if 'attached_images' in locals():
            counter = 0
