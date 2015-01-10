@@ -6,6 +6,18 @@
        <setting id="background" type="file" label="30119" source="auto" option="writeable"/>
        <setting id="Debug" type="bool" label="Debug" default="False"/>
     </category>
+    <category label="HTML2TEXT">
+       <setting id="UNICODE_SNOB" type="text"  label="30120" default="0"/>
+       <setting id="EXCAPE_SNOB" type="text"  label="30121" default="0"/>
+       <setting id="LINKS_EACH_PARAGRAPH" type="text" label="30122" default="0"/>
+       <setting id="BODY_WIDTH" type="text" label="30123" default="78"/>
+       <setting id="SKIP_INTERNAL_LINKS" type="bool" label="30124" default="True"/>
+       <setting id="INLINE_LINKS" type="bool" label="30125" default="True"/>
+       <setting id="GOOGLE_LIST_INDENT" type="text" label="30126" default="36"/>
+       <setting id="IGNORE_ANCHORS" type="bool" label="30127"  default="False"/>
+       <setting id="IGNORE_IMAGES" type="bool" label="30128"  default="True"/>
+       <setting id="IGNORE_EMPHASIS" type="bool" label="30129"  default="False"/>
+    </category>
     <category label="Serveur 1">
        <setting id="name1" type="text"  label="30100" default=""/>
        <setting id="user1" type="text"  label="30101" default=""/>
