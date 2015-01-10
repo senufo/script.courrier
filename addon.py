@@ -45,7 +45,6 @@ import email
 from email.Parser import Parser as EmailParser
 from email.utils import parseaddr
 from email.Header import decode_header
-#import mimetypes
 
 DEBUG_LOG = __addon__.getSetting( 'debug' )
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
@@ -309,7 +308,6 @@ class MailWindow(xbmcgui.WindowXML):
             if part.get_content_type() == "text/plain":
 		if body is None:
                     body = ""
-                    print("BODY DEFINE")
                 try :
                     #If no defined charset
                     if (part.get_content_charset() is None):
@@ -329,7 +327,6 @@ class MailWindow(xbmcgui.WindowXML):
                 h.ignore_links = True
                 h.ignore_image = True
                 h.inline_links = False
-                #print h.handle("<p>Hello, <a href='http://earth.google.com/'>world</a>!")
                 if html is None:
                     html = ""
                 try :
@@ -338,17 +335,13 @@ class MailWindow(xbmcgui.WindowXML):
 		    #print ("CHARSET = %s " % part.get_content_charset())
                     if (part.get_content_charset() is None):
                         raw_html = part.get_payload(decode=True)
-                        #print("RAW_HTML 334")
                         try:
-                          #html = html2text(raw_html)
                           html = h.handle(raw_html)
                         #Try to fix error unicode if no charset defined
                         except Exception, e:
-                          print ("Error 130 : %s" % e)
-		          print ("CHARSET = %s " % part.get_content_charset())
+		          print ("Error : %s, CHARSET = %s " % (e,part.get_content_charset()))
                           raw_html = raw_html.decode('utf-8','replace')
                           html = h.handle(raw_html)
-                          #html = html2text(raw_html)
                           print("RAW_HTML None OK")
                     else:
                         #raw_html = unicode(
@@ -364,39 +357,27 @@ class MailWindow(xbmcgui.WindowXML):
 		        print ("CHARSET 353 = %s " % part.get_content_charset())
                         try:
                           html = raw_html.decode(charset_msg)
-                          print("367")
                           html = h.handle(html)
-                          print("368")
-                          #print("HTML = %s" % html)
-                          #html = html2text(html)
                         except Exception, e:
                           print ("HTML error : %s\n" % e)
                           html = htlm2text(raw_html)
                           print ("HTML OK : %s\n" % html)
                 except Exception, e:
-                    #html += "Erreur unicode html"
                     print( "ERROR HTML = %s , %s" % (str(e),charset_msg))
-                    print( "ERROR HTML =============================  ")
                     
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = ' '
-        print("383 : %s" % body)
         #Si text/plain Body is define 
         if (body):
-            print("385")
             try:
-               print("387")
                description += str(body)
-               print("389")
             except Exception, e:
                print ("Error 389 : %s " % e)
                description = body
         #Si text/html html is define 
         if (html):
-            print("394")
             try:
-                print("396")
                 html = html.encode('ascii','replace')
                 description += str(html)
             except Exception, e:
