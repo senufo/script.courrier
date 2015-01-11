@@ -50,6 +50,7 @@ DEBUG_LOG = __addon__.getSetting( 'debug' )
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
 
+#Defaults options for html2text module
 #UNICODE_SNOB=0
 UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )
 #ESCAPE_SNOB=0
