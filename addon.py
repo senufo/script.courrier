@@ -11,10 +11,8 @@ kodi script for read mail on IMAP/POP server
 #Modules xbmc
 import xbmc, xbmcgui
 import xbmcaddon
-import os, re
-#from BeautifulSoup import *
+import os, re, glob
 
-#import BeautifulSoup
 from re import compile as Pattern
 
 __author__     = "Senufo"
@@ -31,6 +29,10 @@ __profile__    = xbmc.translatePath( __addon__.getAddonInfo('profile') )
 __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) )
 
 __skindir__    = xbmc.getSkinDir()
+
+print "Profile : %s " % __profile__
+print "Resource : %s " % __resource__
+print "CWD : %s " % __cwd__
 
 sys.path.append (__resource__)
 
@@ -51,34 +53,25 @@ if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
 
 #Defaults options for html2text module
-#UNICODE_SNOB=0
-UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )
-#ESCAPE_SNOB=0
-ESCAPE_SNOB = __addon__.getSetting( 'ESCAPE_SNOB' )
-#LINKS_EACH_PARAGRAPH=0
-LINKS_EACH_PARAGRAPH = __addon__.getSetting( 'LINKS_EACH_PARAGRAPH' )
-#BODY_WIDTH=78
-BODY_WIDTH = __addon__.getSetting( 'BODY_WIDTH' )
-#SKIP_INTERNAL_LINKS=True
-SKIP_INTERNAL_LINKS = __addon__.getSetting( 'SKIP_INTERNAL_LINKS' )
+
+UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )                 #UNICODE_SNOB=0
+ESCAPE_SNOB = __addon__.getSetting( 'ESCAPE_SNOB' )                   #ESCAPE_SNOB=0
+LINKS_EACH_PARAGRAPH = __addon__.getSetting( 'LINKS_EACH_PARAGRAPH' ) #LINKS_EACH_PARAGRAPH=0
+BODY_WIDTH = __addon__.getSetting( 'BODY_WIDTH' )                     #BODY_WIDTH=78
+SKIP_INTERNAL_LINKS = __addon__.getSetting( 'SKIP_INTERNAL_LINKS' )   #SKIP_INTERNAL_LINKS=True
 if 'true' in SKIP_INTERNAL_LINKS : SKIP_INTERNAL_LINKS = True
 else: SKIP_INTERNAL_LINKS = False
-#INLINE_LINKS=True
-INLINE_LINKS = __addon__.getSetting( 'INLINE_LINKS' )
+INLINE_LINKS = __addon__.getSetting( 'INLINE_LINKS' )                 #INLINE_LINKS=True
 if 'true' in INLINE_LINKS : INLINE_LINKS = True
 else: INLINE_LINKS = False
-#GOOGLE_LIST_INDENT=36
-GOOGLE_LIST_INDENT = __addon__.getSetting( 'GOOGLE_LIST_INDENT' )
-#IGNORE_ANCHORS=False
-IGNORE_ANCHORS = __addon__.getSetting( 'IGNORE_ANCHORS' )
+GOOGLE_LIST_INDENT = __addon__.getSetting( 'GOOGLE_LIST_INDENT' )     #GOOGLE_LIST_INDENT=36
+IGNORE_ANCHORS = __addon__.getSetting( 'IGNORE_ANCHORS' )             #IGNORE_ANCHORS=False
 if 'true' in IGNORE_ANCHORS : IGNORE_ANCHORS = True
 else: IGNORE_ANCHORS = False
-#IGNORE_IMAGES=True
-IGNORE_IMAGES = __addon__.getSetting( 'IGNORE_IMAGES' )
+IGNORE_IMAGES = __addon__.getSetting( 'IGNORE_IMAGES' )               #IGNORE_IMAGES=True
 if 'true' in IGNORE_IMAGES : IGNORE_IMAGES = True
 else: IGNORE_IMAGES = False
-#IGNORE_EMPHASIS=False   
-IGNORE_EMPHASIS = __addon__.getSetting( 'IGNORE_EMPHASIS' )
+IGNORE_EMPHASIS = __addon__.getSetting( 'IGNORE_EMPHASIS' )           #IGNORE_EMPHASIS=False
 if 'true' in IGNORE_EMPHASIS : IGNORE_EMPHASIS = True
 else: IGNORE_EMPHASIS = False
 
@@ -90,6 +83,27 @@ def debug(msg):
     if DEBUG_LOG == True: print " [%s] : %s " % (__scriptid__, msg)
 
 debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (__skindir__,__profile__,__resource__) ))
+
+#Directory for attached file(s)
+#Test if directory for attached file exist
+try:
+   tmp = "%s%s" % (__profile__,'tmp')
+   debug("TMP : %s " % tmp)
+   DATA_PATH = xbmc.translatePath(tmp) 
+except Exception, e:
+   print ("error : %s" % e)
+if not os.path.exists(DATA_PATH): 
+     os.makedirs(DATA_PATH)
+#if directory exist remove all files
+else:
+     files = glob.glob("%s/%s" % (DATA_PATH,'*'))
+     for f in files:
+        try:
+          os.remove(f)
+          print ("f : %s" % (f))
+        except:
+          debug( 'no file' )
+
 
 #Script html2text.py in resources/lib
 #from html2text import *
@@ -311,8 +325,8 @@ class MailWindow(xbmcgui.WindowXML):
         debug (("SUJET : %s " % Sujet))
         body = None
         html = None
-	#Repertory for attached file(s)
-	detach_dir = '/tmp/'
+        
+	#detach_dir = '/tmp/'
         counter = -1 
 	attached_images = []
         for part in msgobj.walk():
@@ -324,7 +338,7 @@ class MailWindow(xbmcgui.WindowXML):
 		#########################################################################
                 filename = part.get_filename()
 		counter += 1
-        	att_path = os.path.join(detach_dir, filename)
+        	att_path = os.path.join(DATA_PATH, filename)
                 pattern = re.compile('png|jpg')
 		if pattern.search(str(att_path)):
                     debug(("File : %s" % (att_path)))
@@ -490,7 +504,7 @@ class MailWindow(xbmcgui.WindowXML):
                     progressDialog2.update(up,
                                        Addon_traduc.getLocalizedString(id=618),
                                        Addon_traduc.getLocalizedString(id=619))
-                    #debug( "UP = %d " % up )
+                    debug( "UP = %d " % up )
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
