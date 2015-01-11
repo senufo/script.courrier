@@ -30,9 +30,9 @@ __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' )
 
 __skindir__    = xbmc.getSkinDir()
 
-print "Profile : %s " % __profile__
-print "Resource : %s " % __resource__
-print "CWD : %s " % __cwd__
+#print "Profile : %s " % __profile__
+#print "Resource : %s " % __resource__
+#print "CWD : %s " % __cwd__
 
 sys.path.append (__resource__)
 
@@ -48,10 +48,11 @@ from email.Parser import Parser as EmailParser
 from email.utils import parseaddr
 from email.Header import decode_header
 
-DEBUG_LOG = __addon__.getSetting( 'debug' )
+DEBUG_LOG = __addon__.getSetting( 'Debug' )
+print "DEBUG = %s " % DEBUG_LOG
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
-
+print "DEBUG = %s " % DEBUG_LOG
 #Defaults options for html2text module
 
 UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )                 #UNICODE_SNOB=0
@@ -91,7 +92,7 @@ try:
    debug("TMP : %s " % tmp)
    DATA_PATH = xbmc.translatePath(tmp) 
 except Exception, e:
-   print ("error : %s" % e)
+   debug ("error : %s" % e)
 if not os.path.exists(DATA_PATH): 
      os.makedirs(DATA_PATH)
 #if directory exist remove all files
@@ -100,7 +101,7 @@ else:
      for f in files:
         try:
           os.remove(f)
-          print ("f : %s" % (f))
+          debug ("f : %s" % (f))
         except:
           debug( 'no file' )
 
