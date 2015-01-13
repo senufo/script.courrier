@@ -120,7 +120,7 @@
 
       <control type="image">
         <description>Image separator top</description>
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>110</posy>
         <width></width>
         <height>2</height>
@@ -128,7 +128,7 @@
       </control>
       <control type="image">
         <description>Image separator bottom</description>
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>610</posy>
         <width></width>
         <height>2</height>
@@ -136,7 +136,7 @@
       </control>
       <control type="image">
         <description>Image separator bottom</description>
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>615</posy>
         <width></width>
         <height>2</height>
@@ -144,7 +144,7 @@
       </control>
       <control type="image">
         <description>Image separator bottom</description>
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>665</posy>
         <width></width>
         <height>2</height>
@@ -152,7 +152,7 @@
       </control>
       <control type="image">
         <description>Image separator bottom</description>
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>670</posy>
         <width></width>
         <height>2</height>
@@ -247,7 +247,7 @@
 
        <!-- separation between list and msgbody -->
        <control type="image">
-        <posx>180</posx>
+        <posx>160</posx>
         <posy>250</posy>
         <width></width>
         <height>2</height>
@@ -359,7 +359,7 @@
         </focusedlayout>
       </control>
       <control type="group">
-        <posx>175</posx>
+        <posx>165</posx>
         <posy>126</posy>
         <control type="scrollbar" id="121">
           <description>scroll bar indicator for lists</description>
