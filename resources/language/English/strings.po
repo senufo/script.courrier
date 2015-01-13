@@ -1,4 +1,4 @@
-# XBMC Media Center language file
+# Kodi Media Center language file
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
@@ -58,9 +58,6 @@ msgstr ""
 msgctxt "#620"
 msgid "Problem connecting to server : %s"
 msgstr ""
-
-#Script Settings
-#empty strings from id 621 to 30099
 
 msgctxt "#30100"
 msgid "Server name"
@@ -144,6 +141,20 @@ msgctxt "#30128"
 msgid "IGNORE_IMAGES"
 msgstr ""
 
+msgctxt "#30131"
+msgid "zzzz"
+msgstr ""
+
+msgctxt "#30130"
+msgid "DATE : "
+msgstr "" 
+
 msgctxt "#30129"
 msgid "IGNORE_EMPHASIS"
 msgstr ""
+
+
+msgctxt "#31001"
+msgid "Attached file(s)"
+msgstr "" 
+
