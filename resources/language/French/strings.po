@@ -146,7 +146,7 @@ msgid "zzzz"
 msgstr "XXXXXXXXXX"
 
 msgctxt "#30132"
-msgid "DATE"
+msgid "DATE : "
 msgstr "Date : "
 
 msgctxt "#30133"
@@ -155,5 +155,5 @@ msgstr "Fichier(s) attaché(s)"
 
 msgctxt "#30129"
 msgid "IGNORE_EMPHASIS"
-msgstr "xxxx"
+msgstr ""
 

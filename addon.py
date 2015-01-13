@@ -16,7 +16,7 @@ import os, re, glob
 from re import compile as Pattern
 
 __author__     = "Senufo"
-__scriptid__   = "script.program.courrier"
+__scriptid__   = "script.courrier"
 __scriptname__ = "Courrier"
 
 __addon__      = xbmcaddon.Addon(__scriptid__)
