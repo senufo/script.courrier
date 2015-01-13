@@ -51,7 +51,7 @@ from email.Header import decode_header
 DEBUG_LOG = __addon__.getSetting( 'Debug' )
 if 'true' in DEBUG_LOG : DEBUG_LOG = True
 else: DEBUG_LOG = False
-
+#DEBUG_LOG = True
 #Defaults options for html2text module
 
 UNICODE_SNOB = __addon__.getSetting( 'UNICODE_SNOB' )                 #UNICODE_SNOB=0
@@ -368,7 +368,8 @@ class MailWindow(xbmcgui.WindowXML):
                            'replace'
                            ).encode('utf8','replace')
                 except Exception, e:
-                    body += "Erreur unicode : %s" % e
+                    #body += "Erreur unicode : %s" % e
+                    body +=  part.get_payload(decode=True)
                     debug( ("BODY = %s " % body))
             elif part.get_content_type() == "text/html":
                 #Define defaults parameters for html2text object
@@ -417,29 +418,30 @@ class MailWindow(xbmcgui.WindowXML):
                     
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
-        description = ' '
+        description = '*'
         #Si text/plain Body is define 
         if (body):
             try:
                description += body.encode('utf-8','replace')
             except Exception, e:
                debug (("Error Body text/plain : %s " % e))
+               description += body.decode('utf-8','replace')
         #Si text/html html is define 
         if (html):
             try:
-                debug('Charset : %s ' % charset_msg)
-                description = html.encode('utf-8','replace')
+               #debug('Charset : %s ' % charset_msg)
+               description += html.encode('utf-8','replace')
             except Exception, e:
-                debug("DESC error : %s" % str(e) )
+               debug("DESC error : %s" % str(e) )
         #Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
-
         listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
         listitem.setProperty( "realname", realname)
         att_file = Addon.getLocalizedString(30133) + att_file
 	debug(("attached files : %s" % att_file))
         listitem.setProperty( "date", date )
         listitem.setProperty( "att_files", att_file )
+        description = description + '*'
         listitem.setProperty( "message", description )
 	#Verify if att_path exist
         if 'attached_images' in locals():
@@ -494,8 +496,8 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
-                #typ, data = imap.search(None, '(FROM "samsung")')
-                #typ, data = imap.search(None, '(FROM "notify")')
+                #typ, data = imap.search(None, '(FROM "dvbkivabien")')
+                #typ, data = imap.search(None, '(FROM "mathilde")')
                 #typ, data = imap.search(None, '(FROM "vmle-rts")')
                 #typ, data = imap.search(None, 'UnSeen')
                 #typ, data = imap.search(None, 'ALL')
