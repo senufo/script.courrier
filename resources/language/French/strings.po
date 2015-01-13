@@ -59,9 +59,6 @@ msgctxt "#620"
 msgid "Problem connecting to server : %s"
 msgstr "Problème de connexion au serveur"
 
-#Script Settings
-#empty strings from id 621 to 30099
-
 msgctxt "#30100"
 msgid "Server name"
 msgstr "Nom du serveur"
@@ -107,3 +104,56 @@ msgstr "Filtre de recherche des messages IMAP"
 msgctxt "#30119"
 msgid "Background file"
 msgstr "Image de fond du skin"
+
+msgctxt "#30120"
+msgid "UNICODE_SNOB"
+msgstr ""
+
+msgctxt "#30121"
+msgid "ESCAPE_SNOB"
+msgstr ""
+
+msgctxt "#30122"
+msgid "LINKS_EACH_PARAGRAPH"
+msgstr ""
+
+msgctxt "#30123"
+msgid "BODY_WIDTH"
+msgstr ""
+
+msgctxt "#30124"
+msgid "SKIP_INTERNAL_LINKS"
+msgstr ""
+
+msgctxt "#30125"
+msgid "INLINE_LINKS"
+msgstr ""
+
+msgctxt "#30126"
+msgid "GOOGLE_LIST_INDENT"
+msgstr ""
+
+msgctxt "#30127"
+msgid "IGNORE_ANCHORS"
+msgstr ""
+
+msgctxt "#30128"
+msgid "IGNORE_IMAGES"
+msgstr ""
+
+msgctxt "#30131"
+msgid "zzzz"
+msgstr "XXXXXXXXXX"
+
+msgctxt "#30132"
+msgid "DATE"
+msgstr "Date : "
+
+msgctxt "#30133"
+msgid "Attached file(s)"
+msgstr "Fichier(s) attaché(s)"
+
+msgctxt "#30129"
+msgid "IGNORE_EMPHASIS"
+msgstr "xxxx"
+
