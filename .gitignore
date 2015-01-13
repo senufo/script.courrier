@@ -1,5 +1,7 @@
 *.pyc
 *.swp
+settings_backup.xml
+test_imap_local.py
 resources/lib/html2text.py.3.11
 resources/skins/Default/media/DefaultIconInfo.png
 resources/skins/Default/media/OverlayDialogBackground.png

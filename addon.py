@@ -340,7 +340,7 @@ class MailWindow(xbmcgui.WindowXML):
                 filename = part.get_filename()
 		counter += 1
         	att_path = os.path.join(DATA_PATH, filename)
-                pattern = re.compile('png|jpg')
+                pattern = re.compile('png|jpg|gif')
 		if pattern.search(str(att_path)):
                     debug(("File : %s" % (att_path)))
                     fp = open(att_path, 'wb')
