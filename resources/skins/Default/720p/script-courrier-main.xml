@@ -58,16 +58,29 @@
       </control>
 
       <control type="label">
-        <description>textarea : Part Update of Listitem (120) EMAIL_LIST, bottom</description>
-        <posx>30</posx>
+        <description>textarea : DATE Listitem (120) bottom</description>
+        <posx>200</posx>
         <posy>620</posy>
-        <width>1050</width>
+        <width>600</width>
         <height>40</height>
         <font>font18</font>
         <textcolor>white</textcolor>
         <aligny>center</aligny>
-        <align>center</align>
+        <align>left</align>
         <label>$INFO[Container(120).ListItem.Property(date)]</label>
+      </control>
+      
+      <control type="label">
+        <description>textarea : Attached files list Listitem (120) bottom</description>
+        <posx>1000</posx>
+        <posy>620</posy>
+        <width>600</width>
+        <height>40</height>
+        <font>font18</font>
+        <textcolor>white</textcolor>
+        <aligny>center</aligny>
+        <align>right</align>
+        <label>$INFO[Container(120).ListItem.Property(att_files)]</label>
       </control>
       
       <control type="image">
