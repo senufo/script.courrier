@@ -9,6 +9,3 @@
 	strings.po
 
 	Note: strings.xml will possibly be deprecated after the release of Frodo/Gotham. Frodo and Gotham will still be backwards compatible with .xml
-- fix directory name for all platform
-- fix display only 3 images
-- add gif extension to attached files filter
