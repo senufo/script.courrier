@@ -113,8 +113,8 @@ else:
 # Use configuration file if exist notifier service
 # try:
 #    Addon = xbmcaddon.Addon('service.notifier')
-    #Verify file configuration exist
-    #if not load file config courrier
+#    Verify file configuration exist
+#    # if not load file config courrier
 #    if not (Addon.getSetting( 'name1' )):
 #        Addon = xbmcaddon.Addon(__addon__)
 # except:
@@ -137,7 +137,7 @@ ACTION_VOLUME_DOWN     = 89
 ACTION_REWIND          = 78
 ACTION_FASTFORWARD     = 77
 
-#Buttons ID in script-courrier-main.xml
+# Buttons ID in script-courrier-main.xml
 STATUS_LABEL = 100
 NX_MAIL      = 101
 MSG_BODY     = 102
@@ -153,18 +153,21 @@ MAX_SIZE_MSG = int(Addon.getSetting('max_msg_size'))
 SEARCH_PARAM = Addon.getSetting('search_param')
 BACKGROUND   = Addon.getSetting('background')
 
-#Test if BACKGROUND is defined
+# Test if BACKGROUND is defined
 if not BACKGROUND:
     BACKGROUND = 'SKINDEFAULT.jpg'
 
 
 class MailWindow(xbmcgui.WindowXML):
+
     """
     Display main window for read mail.
+
     """
+
     def __init__(self, *args, **kwargs):
         """init position variable."""
-        #variable for position in the msg
+        # variable for position in the msg
         self.position = 0
 
     def onInit(self):
@@ -183,17 +186,17 @@ class MailWindow(xbmcgui.WindowXML):
         self.checkEmail(Addon.getSetting('name1'))
 
 
-#Verify mails and display subjects and expeditors
-#Alias is name server POP or IMAP
+# Verify mails and display subjects and expeditors
+# Alias is name server POP or IMAP
     def checkEmail(self, alias):
         """
         Check mail on POP or IMAP server.
         """
-        #debug( 'ALIAS = %s ' % alias )
+        # debug( 'ALIAS = %s ' % alias )
         self.getControl(STATUS_LABEL).setLabel('%s ...' % alias)
 
-        #Empty the list of subject messages
-        #self.listControl.reset()
+        # Empty the list of subject messages
+        # self.listControl.reset()
         self.USER = ''
         self.NOM = ''
         self.SERVER = ''
@@ -202,7 +205,7 @@ class MailWindow(xbmcgui.WindowXML):
         self.SSL = ''
         self.TYPE = ''
         self.FOLDER = ''
-        #Get list of the 3 servers in settings.xml
+        # Get list of the 3 servers in settings.xml
         for i in [1, 2, 3]:
             NOM = Addon.getSetting('name%i' % i)
             USER = Addon.getSetting('user%i' % i)
@@ -213,7 +216,7 @@ class MailWindow(xbmcgui.WindowXML):
             SSL = Addon.getSetting('ssl%i' % i) == "true"
             TYPE = Addon.getSetting('type%i' % i)
             FOLDER = Addon.getSetting('folder%i' % i)
-            #Search selected server
+            # Search selected server
             if (alias == NOM):
                 self.NOM = NOM
                 self.SERVER = SERVER
@@ -224,7 +227,7 @@ class MailWindow(xbmcgui.WindowXML):
                 self.SSL = SSL
                 self.FOLDER = FOLDER
                 try:
-                    #Select server type
+                    # Select server type
                     if '0' in self.TYPE:  # POP3
                         self.getPopMails()
                     if '1' in self.TYPE:  # IMAP
@@ -253,7 +256,7 @@ class MailWindow(xbmcgui.WindowXML):
         numEmails = mail.stat()[0]
 
         debug("You have", numEmails, "emails")
-        #Display the number of msg
+        # Display the number of msg
         self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
         dialog.close()
         if numEmails == 0:
@@ -265,18 +268,18 @@ class MailWindow(xbmcgui.WindowXML):
                                 #emails
             dialog.create(Addon.getLocalizedString(id=613),
                         Addon.getLocalizedString(id=615) + str(numEmails) + Addon.getLocalizedString(id=616))
-            #Retrieve list of mails
+            # Retrieve list of mails
             resp, items, octets = mail.list()
-            debug( "resp %s, %s " % (resp, items))
+            debug("resp %s, %s " % (resp, items))
             dialog.close()
-            #Get all messages for display
+            # Get all messages for display
             progressDialog = xbmcgui.DialogProgress()
             #                    #Message(s)                       #Get mail
             progressDialog.create(Addon.getLocalizedString(id=617),
                                 Addon.getLocalizedString(id=618))
             i = 0
-            #Reset ListBox msg
-            self.getControl( EMAIL_LIST ).reset()
+            # Reset ListBox msg
+            self.getControl(EMAIL_LIST).reset()
             self.emails = []
             for item in items:
                 i = i + 1
@@ -286,7 +289,7 @@ class MailWindow(xbmcgui.WindowXML):
                                       Addon.getLocalizedString(id=618),
                                       Addon.getLocalizedString(id=619))
 
-                #If the maximum size is exceeded doxnload only 50 lines
+                # If the maximum size is exceeded doxnload only 50 lines
                 if (MAX_SIZE_MSG == 0) or (size < MAX_SIZE_MSG):
                     resp, text, octets = mail.retr(id)
                 else:
@@ -295,8 +298,8 @@ class MailWindow(xbmcgui.WindowXML):
                 text = string.join(text, "\n")
                 self.processMails(text, att_file)
             progressDialog.close()
-            #Display the first mail of the list
-            self.getControl( EMAIL_LIST ).selectItem(0)
+            # Display the first mail of the list
+            self.getControl( EMAIL_LIST).selectItem(0)
 
     def processMails(self, text, att_file):
         """
@@ -309,7 +312,7 @@ class MailWindow(xbmcgui.WindowXML):
             decodefrag = decode_header(msgobj['Subject'])
             subj_fragments = []
             for s, enc in decodefrag:
-                #Encode subject in UTF-8
+                # Encode subject in UTF-8
                 if enc:
                     s = unicode(s, enc).encode('utf8', 'replace')
                 subj_fragments.append(s)
@@ -319,7 +322,7 @@ class MailWindow(xbmcgui.WindowXML):
         date = Addon.getLocalizedString(30132)
         if msgobj['Date'] is not None:
             date += msgobj['Date']
-        #else:
+        # else:
         #    date = '--'
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
@@ -327,13 +330,13 @@ class MailWindow(xbmcgui.WindowXML):
         body = None
         html = None
 
-        #detach_dir = '/tmp/'
+        # detach_dir = '/tmp/'
         counter = -1
         attached_images = []
         for part in msgobj.walk():
             content_disposition = part.get("Content-Disposition", None)
             prog = re.compile('attachment')
-            #Retrieve attached files names
+            # Retrieve attached files names
             if prog.search(str(content_disposition)):
                 file_att = str(content_disposition)
                 #########################################################################
@@ -351,28 +354,28 @@ class MailWindow(xbmcgui.WindowXML):
                 ##########################################################################
                 pattern = Pattern(r"\"(.+)\"")
                 att_file += str(pattern.findall(file_att))
-            #Treat text/plain msg
+            # Treat text/plain msg
             if part.get_content_type() == "text/plain":
                 if body is None:
                     body = ""
                     try:
-                        #If no defined charset
+                        # If no defined charset
                         if (part.get_content_charset() is None):
-                            #Decode charset and encode in UTF-8
+                            # Decode charset and encode in UTF-8
                             body += unicode(part.get_payload(decode=True)).encode('utf8', 'replace')
                         else:
-                            #Decode charset and encode in UTF-8
+                            # Decode charset and encode in UTF-8
                             body += unicode(
                                 part.get_payload(decode=True),
                                 part.get_content_charset(),
                                 'replace'
                                 ).encode('utf8', 'replace')
                     except Exception, e:
-                        #body += "Erreur unicode : %s" % e
-                        body +=  part.get_payload(decode=True)
+                        # body += "Erreur unicode : %s" % e
+                        body += part.get_payload(decode=True)
                     debug( ("BODY = %s " % body))
             elif part.get_content_type() == "text/html":
-                #Define defaults parameters for html2text object
+                # Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
                 h.unicode_snob = int(UNICODE_SNOB)                  # UNICODE_SNOB=0
                 h.escape_snob = int(ESCAPE_SNOB)                    # ESCAPE_SNOB=0
@@ -388,21 +391,21 @@ class MailWindow(xbmcgui.WindowXML):
                 if html is None:
                     html = ""
                 try:
-                    #Test to try fix error unicode
-                    #'ascii' codec can't decode byte 0xc5 in position 32: ordinal not in range(128)
-            #debug ("CHARSET = %s " % part.get_content_charset())
+                    # Test to try fix error unicode
+                    # 'ascii' codec can't decode byte 0xc5 in position 32: ordinal not in range(128)
+            # debug ("CHARSET = %s " % part.get_content_charset())
                     if (part.get_content_charset() is None):
                         raw_html = part.get_payload(decode=True)
                         try:
                             html = h.handle(raw_html)
-                        #Try to fix error unicode if no charset defined
+                        # Try to fix error unicode if no charset defined
                         except Exception, e:
                             debug(("Error : %s, CHARSET = %s " % (e, part.get_content_charset())))
                             raw_html = raw_html.decode('utf-8', 'replace')
                             html = h.handle(raw_html)
                             debug("RAW_HTML None OK")
                     else:
-                        #Decode in UTF-8 with kown charset
+                        # Decode in UTF-8 with kown charset
                         raw_html = part.get_payload(decode=True)
                         charset_msg = part.get_content_charset()
                         debug(("CHARSET text/html = %s " % part.get_content_charset()))
@@ -411,29 +414,29 @@ class MailWindow(xbmcgui.WindowXML):
                           html = h.handle(html)
                         except Exception, e:
                           debug(("HTML error : %s\n" % e))
-                          #html = htlm2text(raw_html)
+                          # html = htlm2text(raw_html)
                           debug(("HTML OK : %s\n" % html))
                 except Exception, e:
-                    debug(("ERROR HTML = %s , %s" % (str(e),charset_msg)))
+                    debug(("ERROR HTML = %s , %s" % (str(e), charset_msg)))
 
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
         description = '*'
-        #Si text/plain Body is define
+        # Si text/plain Body is define
         if (body):
             try:
                description += body.encode('utf-8','replace')
             except Exception, e:
                debug(("Error Body text/plain : %s " % e))
                description += body.decode('utf-8','replace')
-        #Si text/html html is define 
+        # Si text/html html is define
         if (html):
             try:
-               #debug('Charset : %s ' % charset_msg)
+               # debug('Charset : %s ' % charset_msg)
                description += html.encode('utf-8','replace')
             except Exception, e:
                debug("DESC error : %s" % str(e) )
-        #Nb of lines msg for scroll text
+        # Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
         listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
         listitem.setProperty( "realname", realname)
@@ -443,16 +446,16 @@ class MailWindow(xbmcgui.WindowXML):
         listitem.setProperty( "att_files", att_file )
         description = description + '*'
         listitem.setProperty( "message", description )
-    #Verify if att_path exist
+    # Verify if att_path exist
         if 'attached_images' in locals():
            counter = 0
            for name_image in attached_images:
               debug(('attached %s ' % attached_images))
-              counter += 1 
+              counter += 1
               debug(('image%s, IMAGE : %s ' % (counter,name_image)))
               listitem.setProperty( ('image%s' % counter), name_image )
 
-        #Add the background
+        # Add the background
         listitem.setProperty( 'background', BACKGROUND )
 
         self.getControl( EMAIL_LIST ).addItem( listitem )
@@ -464,8 +467,8 @@ class MailWindow(xbmcgui.WindowXML):
         dialog = xbmcgui.DialogProgress()
         dialog.create(Addon.getLocalizedString(id=614),
                       Addon.getLocalizedString(id=610))  # Inbox,Logging in
-        #Reset ListBox msg
-        #self.getControl( EMAIL_LIST ).reset()
+        # Reset ListBox msg
+        # self.getControl( EMAIL_LIST ).reset()
         self.emails = []
         try:
             if self.SSL:
@@ -475,12 +478,12 @@ class MailWindow(xbmcgui.WindowXML):
             att_file = ':'
             imap.login(self.USER, self.PASSWORD)
             imap.select(self.FOLDER)
-        #Search new mail, Filter examples : UNSEEN, ALL, ....
-            #numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
-            #numEmails = len(imap.search(None, 'ALL')[1][0].split())
+        # Search new mail, Filter examples : UNSEEN, ALL, ....
+            # numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
+            # numEmails = len(imap.search(None, 'ALL')[1][0].split())
             numEmails = len(imap.search(None, SEARCH_PARAM )[1][0].split())
             debug( ("You have %d emails IMAP" % numEmails) )
-            #Display number of msg
+            # Display number of msg
             self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
             dialog.close()
             if numEmails == 0:
@@ -496,11 +499,11 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
         ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
-                #typ, data = imap.search(None, '(FROM "dvbkivabien")')
-                #typ, data = imap.search(None, '(FROM "vdr")')
-                #typ, data = imap.search(None, '(FROM "vmle-rts")')
-                #typ, data = imap.search(None, 'UnSeen')
-                #typ, data = imap.search(None, 'ALL')
+                # typ, data = imap.search(None, '(FROM "dvbkivabien")')
+                # typ, data = imap.search(None, '(FROM "vdr")')
+                # typ, data = imap.search(None, '(FROM "vmle-rts")')
+                # typ, data = imap.search(None, 'UnSeen')
+                # typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
                     i = i + 1
                     typ, data = imap.fetch(num, '(RFC822)')
@@ -512,16 +515,16 @@ class MailWindow(xbmcgui.WindowXML):
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
-            #Display first mail of the list
+            # Display first mail of the list
             self.getControl( EMAIL_LIST ).selectItem(0)
             imap.logout
         except Exception, e:
             debug( ('IMAP exception : %s' % str( e )) )
 
     def onAction(self, action):
-        """Select action after remote control"""
-        #debug( "ID Action %d" % action.getId() )
-        #debug( "Code Action %d" % action.getButtonCode() )
+        """Select action after remote control."""
+        # debug( "ID Action %d" % action.getId() )
+        # debug( "Code Action %d" % action.getButtonCode() )
         if action == ACTION_PREVIOUS_MENU:
             self.close()
         if action == ACTION_MOVE_UP:
@@ -533,14 +536,14 @@ class MailWindow(xbmcgui.WindowXML):
                 self.position = self.position - 1
             self.getControl( MSG_BODY ).scroll(self.position)
             debug( "Position F = %d " % self.position )
-        if (action == ACTION_REWIND): #PageUp
+        if (action == ACTION_REWIND):  # PageUp
             if (self.position <= self.nb_lignes):
                 self.position = self.position + 1
             self.getControl( MSG_BODY ).scroll(self.position)
             debug( "Position R = %d " % self.position )
 
     def onClick( self, controlId ):
-        #debug( "onClick controId = %d " % controlId )
+        # debug( "onClick controId = %d " % controlId )
         if (controlId in [SERVER1, SERVER2, SERVER3]):
             label = self.getControl( controlId ).getLabel()
             self.checkEmail(label)
