@@ -164,7 +164,8 @@ class MailWindow(xbmcgui.WindowXML):
     Display main window for read mail.
     """
     def __init__(self, *args, **kwargs):
-        """init position variable.
+        """
+        init position variable.
         """
         # variable for position in the msg
         self.position = 0
@@ -508,8 +509,8 @@ class MailWindow(xbmcgui.WindowXML):
                     typ, data = imap.fetch(num, '(RFC822)')
                     up = (i*100)/numEmails  # Get mail              Please wait
                     progressDialog2.update(up,
-                                       Addon.getLocalizedString(id=618),
-                                       Addon.getLocalizedString(id=619))
+                                           Addon.getLocalizedString(id=618),
+                                           Addon.getLocalizedString(id=619))
                     debug("UP = %d " % up)
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
@@ -521,7 +522,8 @@ class MailWindow(xbmcgui.WindowXML):
             debug(('IMAP exception : %s' % str(e)))
 
     def onAction(self, action):
-        """Select action after remote control.
+        """
+        Select action after remote control.
         """
         # debug( "ID Action %d" % action.getId() )
         # debug( "Code Action %d" % action.getButtonCode() )
@@ -543,6 +545,7 @@ class MailWindow(xbmcgui.WindowXML):
             debug("Position R = %d " % self.position)
 
     def onClick(self, controlId):
+        """Action on click button"""
         # debug( "onClick controId = %d " % controlId )
         if (controlId in [SERVER1, SERVER2, SERVER3]):
             label = self.getControl(controlId).getLabel()
