@@ -37,11 +37,10 @@ __skindir__    = xbmc.getSkinDir()
 # print "Resource : %s " % __resource__
 # print "CWD : %s " % __cwd__
 
-sys.path.append(__resource__)
 
 import sys
 import time
-from time import gmtime, strftime
+# from time import gmtime, strftime
 import poplib, imaplib
 import string
 
@@ -54,6 +53,8 @@ from email.Header import decode_header
 # Script html2text.py in resources/lib
 # from html2text import *
 import html2text
+
+sys.path.append(__resource__)
 
 DEBUG_LOG = __addon__.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = True
@@ -159,14 +160,12 @@ if not BACKGROUND:
 
 
 class MailWindow(xbmcgui.WindowXML):
-
     """
     Display main window for read mail.
-
     """
-
     def __init__(self, *args, **kwargs):
-        """init position variable."""
+        """init position variable.
+        """
         # variable for position in the msg
         self.position = 0
 
@@ -264,10 +263,10 @@ class MailWindow(xbmcgui.WindowXML):
             dialogOK.ok("%s" % self.NOM,
                         Addon.getLocalizedString(id=612))  # no mail
             self.getControl(EMAIL_LIST).reset()
-        else:  # Inbox                           #You have
-                                #emails
+        else:  # Inbox                           # You have
+                                # emails
             dialog.create(Addon.getLocalizedString(id=613),
-                        Addon.getLocalizedString(id=615) + str(numEmails) + Addon.getLocalizedString(id=616))
+                          Addon.getLocalizedString(id=615) + str(numEmails) + Addon.getLocalizedString(id=616))
             # Retrieve list of mails
             resp, items, octets = mail.list()
             debug("resp %s, %s " % (resp, items))
@@ -276,7 +275,7 @@ class MailWindow(xbmcgui.WindowXML):
             progressDialog = xbmcgui.DialogProgress()
             #                    #Message(s)                       #Get mail
             progressDialog.create(Addon.getLocalizedString(id=617),
-                                Addon.getLocalizedString(id=618))
+                                  Addon.getLocalizedString(id=618))
             i = 0
             # Reset ListBox msg
             self.getControl(EMAIL_LIST).reset()
@@ -299,7 +298,7 @@ class MailWindow(xbmcgui.WindowXML):
                 self.processMails(text, att_file)
             progressDialog.close()
             # Display the first mail of the list
-            self.getControl( EMAIL_LIST).selectItem(0)
+            self.getControl(EMAIL_LIST).selectItem(0)
 
     def processMails(self, text, att_file):
         """
@@ -373,7 +372,7 @@ class MailWindow(xbmcgui.WindowXML):
                     except Exception, e:
                         # body += "Erreur unicode : %s" % e
                         body += part.get_payload(decode=True)
-                    debug( ("BODY = %s " % body))
+                    debug(("BODY = %s " % body))
             elif part.get_content_type() == "text/html":
                 # Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
@@ -410,12 +409,12 @@ class MailWindow(xbmcgui.WindowXML):
                         charset_msg = part.get_content_charset()
                         debug(("CHARSET text/html = %s " % part.get_content_charset()))
                         try:
-                          html = raw_html.decode(charset_msg)
-                          html = h.handle(html)
+                            html = raw_html.decode(charset_msg)
+                            html = h.handle(html)
                         except Exception, e:
-                          debug(("HTML error : %s\n" % e))
-                          # html = htlm2text(raw_html)
-                          debug(("HTML OK : %s\n" % html))
+                            debug(("HTML error : %s\n" % e))
+                            # html = htlm2text(raw_html)
+                            debug(("HTML OK : %s\n" % html))
                 except Exception, e:
                     debug(("ERROR HTML = %s , %s" % (str(e), charset_msg)))
 
@@ -425,40 +424,40 @@ class MailWindow(xbmcgui.WindowXML):
         # Si text/plain Body is define
         if (body):
             try:
-               description += body.encode('utf-8','replace')
+                description += body.encode('utf-8', 'replace')
             except Exception, e:
-               debug(("Error Body text/plain : %s " % e))
-               description += body.decode('utf-8','replace')
+                debug(("Error Body text/plain : %s " % e))
+                description += body.decode('utf-8', 'replace')
         # Si text/html html is define
         if (html):
             try:
-               # debug('Charset : %s ' % charset_msg)
-               description += html.encode('utf-8','replace')
+                # debug('Charset : %s ' % charset_msg)
+                description += html.encode('utf-8', 'replace')
             except Exception, e:
-               debug("DESC error : %s" % str(e) )
+                debug("DESC error : %s" % str(e))
         # Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
-        listitem = xbmcgui.ListItem( label2=realname, label=Sujet)
-        listitem.setProperty( "realname", realname)
+        listitem = xbmcgui.ListItem(label2=realname, label=Sujet)
+        listitem.setProperty("realname", realname)
         att_file = Addon.getLocalizedString(30133) + att_file
         debug(("attached files : %s" % att_file))
-        listitem.setProperty( "date", date )
-        listitem.setProperty( "att_files", att_file )
+        listitem.setProperty("date", date)
+        listitem.setProperty("att_files", att_file)
         description = description + '*'
-        listitem.setProperty( "message", description )
+        listitem.setProperty("message", description)
     # Verify if att_path exist
         if 'attached_images' in locals():
-           counter = 0
-           for name_image in attached_images:
-              debug(('attached %s ' % attached_images))
-              counter += 1
-              debug(('image%s, IMAGE : %s ' % (counter,name_image)))
-              listitem.setProperty( ('image%s' % counter), name_image )
+            counter = 0
+            for name_image in attached_images:
+                debug(('attached %s ' % attached_images))
+                counter += 1
+                debug(('image%s, IMAGE : %s ' % (counter, name_image)))
+                listitem.setProperty(('image%s' % counter), name_image)
 
         # Add the background
-        listitem.setProperty( 'background', BACKGROUND )
+        listitem.setProperty('background', BACKGROUND)
 
-        self.getControl( EMAIL_LIST ).addItem( listitem )
+        self.getControl(EMAIL_LIST).addItem(listitem)
 
     def getImapMails(self):
         """
@@ -481,23 +480,23 @@ class MailWindow(xbmcgui.WindowXML):
         # Search new mail, Filter examples : UNSEEN, ALL, ....
             # numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
             # numEmails = len(imap.search(None, 'ALL')[1][0].split())
-            numEmails = len(imap.search(None, SEARCH_PARAM )[1][0].split())
-            debug( ("You have %d emails IMAP" % numEmails) )
+            numEmails = len(imap.search(None, SEARCH_PARAM)[1][0].split())
+            debug(("You have %d emails IMAP" % numEmails))
             # Display number of msg
-            self.getControl( NX_MAIL ).setLabel( '%d msg(s)' % numEmails )
+            self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
             dialog.close()
             if numEmails == 0:
                 dialogOK = xbmcgui.Dialog()
                 dialogOK.ok("%s" % self.NOM,
                             Addon.getLocalizedString(id=612))  # no mail
-                self.getControl( EMAIL_LIST ).reset()
+                self.getControl(EMAIL_LIST).reset()
             else:
                 progressDialog2 = xbmcgui.DialogProgress()
-                                  #Message(s)                       #Get mail
+#                                  #Message(s)                       #Get mail
                 progressDialog2.create(Addon.getLocalizedString(id=617),
                                        Addon.getLocalizedString(id=618))
                 i = 0
-        ##Retrieve list of mails
+#        ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
                 # typ, data = imap.search(None, '(FROM "dvbkivabien")')
                 # typ, data = imap.search(None, '(FROM "vdr")')
@@ -511,18 +510,19 @@ class MailWindow(xbmcgui.WindowXML):
                     progressDialog2.update(up,
                                        Addon.getLocalizedString(id=618),
                                        Addon.getLocalizedString(id=619))
-                    debug( "UP = %d " % up )
+                    debug("UP = %d " % up)
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
             # Display first mail of the list
-            self.getControl( EMAIL_LIST ).selectItem(0)
+            self.getControl(EMAIL_LIST).selectItem(0)
             imap.logout
         except Exception, e:
-            debug( ('IMAP exception : %s' % str( e )) )
+            debug(('IMAP exception : %s' % str(e)))
 
     def onAction(self, action):
-        """Select action after remote control."""
+        """Select action after remote control.
+        """
         # debug( "ID Action %d" % action.getId() )
         # debug( "Code Action %d" % action.getButtonCode() )
         if action == ACTION_PREVIOUS_MENU:
@@ -534,18 +534,18 @@ class MailWindow(xbmcgui.WindowXML):
         if action == ACTION_FASTFORWARD:  # PageUp
             if (self.position > 0):
                 self.position = self.position - 1
-            self.getControl( MSG_BODY ).scroll(self.position)
-            debug( "Position F = %d " % self.position )
+            self.getControl(MSG_BODY).scroll(self.position)
+            debug("Position F = %d " % self.position)
         if (action == ACTION_REWIND):  # PageUp
             if (self.position <= self.nb_lignes):
                 self.position = self.position + 1
-            self.getControl( MSG_BODY ).scroll(self.position)
-            debug( "Position R = %d " % self.position )
+            self.getControl(MSG_BODY).scroll(self.position)
+            debug("Position R = %d " % self.position)
 
-    def onClick( self, controlId ):
+    def onClick(self, controlId):
         # debug( "onClick controId = %d " % controlId )
         if (controlId in [SERVER1, SERVER2, SERVER3]):
-            label = self.getControl( controlId ).getLabel()
+            label = self.getControl(controlId).getLabel()
             self.checkEmail(label)
         elif (controlId == QUIT):
             self.close()
