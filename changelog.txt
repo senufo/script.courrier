@@ -28,3 +28,9 @@
 - Remove TAB in code
 0.1.3
 - Change python version for HELIX and Gotham
+0.2.1
+- Fix warnings
+0.2.2
+- Fix error ASCII code with debug messages
+- Fix error in pop3.stat function
+- Test to Isengard and Jarvis Kodi version
