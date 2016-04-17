@@ -250,7 +250,10 @@ class MailWindow(xbmcgui.WindowXML):
             mail = poplib.POP3(str(self.SERVER), int(self.PORT))
         mail.user(str(self.USER))
         mail.pass_(str(self.PASSWORD))
-        numEmails = mail.stat()[0]
+	try:
+		(numEmails, mailboxsize) = mail.stat()
+	except Exception, e:
+		debug("Erreur stat : %s<=" % str(e))
 
         debug("You have", numEmails, "emails")
         # Display the number of msg
