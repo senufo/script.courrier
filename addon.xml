@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.courrier"
        name="Courrier"
-       version="0.2.1"
+       version="0.2.2"
        provider-name="Senufo">
   <requires>
     <import addon="xbmc.python" version="2.19.0"/>
@@ -10,7 +10,7 @@
              library="addon.py" />
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Mail Checker</summary>
-    <summary lang="fr">Reléve le Courrier</summary>
+    <summary lang="fr">Relève le Courrier</summary>
     <description lang="en">
 Courrier is a script for read mail on POP or IMAP servers.
 
@@ -29,7 +29,7 @@ if you have installed service.notfier the script.mail use configuration settings
     <description lang="fr">
 Courrier est un script pour lire son courrier sur des serveurs POP ou IMAP.
 Basé sur le script et le skin de gmailchecker
-Configurer le serveur dans le sparamètres
+Configurer le serveur dans les paramètres
 Vous pouvez définir la taille maximale des messages et un filtre pour rechercher des messages dans le serveur IMAP
 Le texte de vos messages défile automatiquement
  
