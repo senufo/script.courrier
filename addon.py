@@ -94,10 +94,10 @@ def debug(msg):
 # Test if directory for attached file exist
 try:
     tmp = "%s%s" % (__profile__, 'tmp')
-    debug("TMP : %s " % tmp)
+    debug("97: TMP : %s " % tmp)
     DATA_PATH = xbmc.translatePath(tmp)
 except Exception, e:
-    debug("error : %s" % e)
+    debug("100: error : %s" % e)
 if not os.path.exists(DATA_PATH):
     os.makedirs(DATA_PATH)
 # if directory exist remove all files
@@ -106,9 +106,9 @@ else:
     for f in files:
         try:
             os.remove(f)
-            debug("f : %s" % (f))
+            debug("109: f : %s" % (f))
         except:
-            debug('no file')
+            debug('111: no file')
 
 # Use configuration file if exist notifier service
 # try:
@@ -254,8 +254,7 @@ class MailWindow(xbmcgui.WindowXML):
 		(numEmails, mailboxsize) = mail.stat()
 	except Exception, e:
 		debug("Erreur stat : %s<=" % str(e))
-
-        debug("You have", numEmails, "emails")
+        debug("258 : You have %d emails " % numEmails)
         # Display the number of msg
         self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
         dialog.close()
@@ -270,7 +269,7 @@ class MailWindow(xbmcgui.WindowXML):
                           Addon.getLocalizedString(id=616)) # emails
             # Retrieve list of mails
             resp, items, octets = mail.list()
-            debug("resp %s, %s " % (resp, items))
+            debug("272: resp %s, %s " % (resp, items))
             dialog.close()
             # Get all messages for display
             progressDialog = xbmcgui.DialogProgress()
@@ -323,7 +322,7 @@ class MailWindow(xbmcgui.WindowXML):
             date += msgobj['Date']
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
-        debug(("SUJET : %s " % Sujet))
+        debug(("325: SUJET : %s " % Sujet))
         body = None
         html = None
         counter = -1
@@ -339,12 +338,12 @@ class MailWindow(xbmcgui.WindowXML):
                 att_path = os.path.join(DATA_PATH, filename)
                 pattern = re.compile('png|jpg|gif')
                 if pattern.search(str(att_path)):
-                    debug(("File : %s" % (att_path)))
+                    debug(("341: File : %s" % (att_path)))
                     fp = open(att_path, 'wb')
                     fp.write(part.get_payload(decode=True))
                     fp.close()
                     attached_images.append(att_path)
-                    debug(("ATTACHED :%s" % attached_images))
+                    debug(("347: ATTACHED :%s" % attached_images))
                 pattern = Pattern(r"\"(.+)\"")
                 att_file += str(pattern.findall(file_att))
             # Treat text/plain msg
@@ -366,7 +365,7 @@ class MailWindow(xbmcgui.WindowXML):
                     except Exception, e:
                         # body += "Erreur unicode : %s" % e
                         body += part.get_payload(decode=True)
-                    debug(("BODY = %s " % body))
+                    debug(("369: BODY = %s " % body))
             elif part.get_content_type() == "text/html":
                 # Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
@@ -393,24 +392,24 @@ class MailWindow(xbmcgui.WindowXML):
                             html = h.handle(raw_html)
                         # Try to fix error unicode if no charset defined
                         except Exception, e:
-                            debug(("Error : %s, CHARSET = %s " % (e, part.get_content_charset())))
+                            debug(("395: Error : %s, CHARSET = %s " % (e, part.get_content_charset())))
                             raw_html = raw_html.decode('utf-8', 'replace')
                             html = h.handle(raw_html)
-                            debug("RAW_HTML None OK")
+                            debug("398: RAW_HTML None OK")
                     else:
                         # Decode in UTF-8 with kown charset
                         raw_html = part.get_payload(decode=True)
                         charset_msg = part.get_content_charset()
-                        debug(("CHARSET text/html = %s " % part.get_content_charset()))
+                        debug(("404: CHARSET text/html = %s " % part.get_content_charset()))
                         try:
                             html = raw_html.decode(charset_msg)
                             html = h.handle(html)
                         except Exception, e:
-                            debug(("HTML error : %s\n" % e))
+                            debug(("408: HTML error : %s\n" % e))
                             # html = htlm2text(raw_html)
-                            debug(("HTML OK : %s\n" % html))
+                            debug(("410: HTML OK : %s\n" % html))
                 except Exception, e:
-                    debug(("ERROR HTML = %s , %s" % (str(e), charset_msg)))
+                    debug(("412: ERROR HTML = %s , %s" % (str(e), charset_msg)))
 
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
@@ -420,7 +419,7 @@ class MailWindow(xbmcgui.WindowXML):
             try:
                 description += body.encode('utf-8', 'replace')
             except Exception, e:
-                debug(("Error Body text/plain : %s " % e))
+                debug(("422: Error Body text/plain : %s " % e))
                 description += body.decode('utf-8', 'replace')
         # if text/html html is define
         if (html):
@@ -428,7 +427,7 @@ class MailWindow(xbmcgui.WindowXML):
                 # debug('Charset : %s ' % charset_msg)
                 description += html.encode('utf-8', 'replace')
             except Exception, e:
-                debug("DESC error : %s" % str(e))
+                debug("430: DESC error : %s" % str(e))
         # Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
         listitem = xbmcgui.ListItem(label2=realname, label=Sujet)
@@ -446,9 +445,9 @@ class MailWindow(xbmcgui.WindowXML):
         if 'attached_images' in locals():
             counter = 0
             for name_image in attached_images:
-                debug(('attached %s ' % attached_images))
+                debug(('448: attached %s ' % attached_images))
                 counter += 1
-                debug(('image%s, IMAGE : %s ' % (counter, name_image)))
+                debug(('450: image%s, IMAGE : %s ' % (counter, name_image)))
                 listitem.setProperty(('image%s' % counter), name_image)
 
         # Add the background
@@ -478,7 +477,7 @@ class MailWindow(xbmcgui.WindowXML):
             # numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
             # numEmails = len(imap.search(None, 'ALL')[1][0].split())
             numEmails = len(imap.search(None, SEARCH_PARAM)[1][0].split())
-            debug(("You have %d emails IMAP" % numEmails))
+            debug(("478: You have %d emails IMAP" % numEmails))
             # Display number of msg
             self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
             dialog.close()
@@ -506,7 +505,7 @@ class MailWindow(xbmcgui.WindowXML):
                     progressDialog2.update(up,
                                            Addon.getLocalizedString(id=618),  # Get mail
                                            Addon.getLocalizedString(id=619))  # Please wait
-                    debug("UP = %d " % up)
+                    debug("508: UP = %d " % up)
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
@@ -514,7 +513,7 @@ class MailWindow(xbmcgui.WindowXML):
             self.getControl(EMAIL_LIST).selectItem(0)
             imap.logout
         except Exception, e:
-            debug(('IMAP exception : %s' % str(e)))
+            debug(('516: IMAP exception : %s' % str(e)))
 
     def onAction(self, action):
         """
@@ -532,12 +531,12 @@ class MailWindow(xbmcgui.WindowXML):
             if (self.position > 0):
                 self.position = self.position - 1
             self.getControl(MSG_BODY).scroll(self.position)
-            debug("Position F = %d " % self.position)
+            debug("534: Position F = %d " % self.position)
         if (action == ACTION_REWIND):  # PageUp
             if (self.position <= self.nb_lignes):
                 self.position = self.position + 1
             self.getControl(MSG_BODY).scroll(self.position)
-            debug("Position R = %d " % self.position)
+            debug("539: Position R = %d " % self.position)
 
     def onClick(self, controlId):
         """Action on click button"""
