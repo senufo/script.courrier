@@ -434,7 +434,10 @@ class MailWindow(xbmcgui.WindowXML):
         listitem = xbmcgui.ListItem(label2=realname, label=Sujet)
         listitem.setProperty("realname", realname)
         att_file = Addon.getLocalizedString(30133) + att_file
-        debug(("attached files : %s" % att_file))
+	try:
+	    debug(("437: attached files : %s" % att_file))
+	except:
+	    debug("458: Erreur code ASCII")
         listitem.setProperty("date", date)
         listitem.setProperty("att_files", att_file)
         description = description + '*'
