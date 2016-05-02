@@ -46,8 +46,11 @@ import html2text
 
 
 DEBUG_LOG = addon.getSetting('Debug')
-if 'true' in DEBUG_LOG: DEBUG_LOG = True
-else: DEBUG_LOG = False
+if 'true' in DEBUG_LOG: DEBUG_LOG = -1 #loglevel == 1 (DEBUG, shows all)
+else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
+xbmc.log("DEBUG_LOG : %s" % DEBUG_LOG,DEBUG_LOG)
+#if 'true' in DEBUG_LOG: DEBUG_LOG = True
+#else: DEBUG_LOG = False
 # DEBUG_LOG = True
 # Defaults options for html2text module
 
@@ -73,21 +76,21 @@ if 'true' in IGNORE_EMPHASIS: IGNORE_EMPHASIS = True
 else: IGNORE_EMPHASIS = False
 
 
-def debug(msg):
-    """
-    print message if DEBUG_LOG == True.
-    """
-    if DEBUG_LOG is True: print " [%s] : %s " % (scriptid, msg)
+#def debug(msg):
+#    """
+#    print message if DEBUG_LOG == True.
+#    """
+#    if DEBUG_LOG is True: print " [%s] : %s " % (scriptid, msg)
 # debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (skindir, profile,__resource__) ))
 
 # Directory for attached file(s)
 # Test if directory for attached file exist
 try:
     tmp = "%s%s" % (profile, 'tmp')
-    debug("97: TMP : %s " % tmp)
+    xbmc.log(("[%s] : 97: TMP : %s " % (scriptid, tmp)), DEBUG_LOG)
     DATA_PATH = xbmc.translatePath(tmp)
 except Exception, e:
-    debug("100: error : %s" % e)
+    xbmc.log(("[%s] : 100: error : %s" % (scriptid, e)), DEBUG_LOG)
 if not os.path.exists(DATA_PATH):
     os.makedirs(DATA_PATH)
 # if directory exist remove all files
@@ -96,9 +99,9 @@ else:
     for f in files:
         try:
             os.remove(f)
-            debug("109: f : %s" % (f))
+            xbmc.log(("[%s] : 109: f : %s" % (scriptid, f)), DEBUG_LOG)
         except:
-            debug('111: no file')
+            xbmc.log(('[%s] : 111: no file' % scriptid), DEBUG_LOG)
 
 # Use configuration file if exist notifier service
 # try:
@@ -220,7 +223,7 @@ class MailWindow(xbmcgui.WindowXML):
                     if '1' in self.TYPE:  # IMAP
                         self.getImapMails()
                 except Exception, e:
-                    debug(('Error Server Type : %s' % str(e)))
+                    xbmc.log(('[%s] : Error Server Type : %s' % (scriptid, str(e))), DEBUG_LOG)
                     dialog = xbmcgui.DialogProgress()
                     dialog.create(Addon.getLocalizedString(id=614),
                                   Addon.getLocalizedString(id=620) % self.SERVER)
@@ -243,8 +246,8 @@ class MailWindow(xbmcgui.WindowXML):
 	try:
 		(numEmails, mailboxsize) = mail.stat()
 	except Exception, e:
-		debug("Erreur stat : %s<=" % str(e))
-        debug("258 : You have %d emails " % numEmails)
+		xbmc.log(("[%s] : Erreur stat : %s<=" % str(e)), DEBUG_LOG)
+        xbmc.log(("[%s] : 258 : You have %d emails " % numEmails), DEBUG_LOG)
         # Display the number of msg
         self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
         dialog.close()
@@ -259,7 +262,7 @@ class MailWindow(xbmcgui.WindowXML):
                           Addon.getLocalizedString(id=616)) # emails
             # Retrieve list of mails
             resp, items, octets = mail.list()
-            debug("272: resp %s, %s " % (resp, items))
+            xbmc.log(("[%s] : 272: resp %s, %s " % (resp, items)), DEBUG_LOG)
             dialog.close()
             # Get all messages for display
             progressDialog = xbmcgui.DialogProgress()
@@ -312,7 +315,7 @@ class MailWindow(xbmcgui.WindowXML):
             date += msgobj['Date']
         Sujet = subject
         realname = parseaddr(msgobj.get('From'))[1]
-        debug(("325: SUJET : %s " % Sujet))
+        xbmc.log(("[%s] : 325: SUJET : %s " % (scriptid, Sujet)), DEBUG_LOG)
         body = None
         html = None
         counter = -1
@@ -328,12 +331,12 @@ class MailWindow(xbmcgui.WindowXML):
                 att_path = os.path.join(DATA_PATH, filename)
                 pattern = re.compile('png|jpg|gif')
                 if pattern.search(str(att_path)):
-                    debug(("341: File : %s" % (att_path)))
+                    xbmc.log(("[%s] : 341: File : %s" % (scriptid, att_path)), DEBUG_LOG)
                     fp = open(att_path, 'wb')
                     fp.write(part.get_payload(decode=True))
                     fp.close()
                     attached_images.append(att_path)
-                    debug(("347: ATTACHED :%s" % attached_images))
+                    xbmc.log(("[%s] : 347: ATTACHED :%s" % (scriptid, attached_images)), DEBUG_LOG)
                 pattern = Pattern(r"\"(.+)\"")
                 att_file += str(pattern.findall(file_att))
             # Treat text/plain msg
@@ -355,7 +358,7 @@ class MailWindow(xbmcgui.WindowXML):
                     except Exception, e:
                         # body += "Erreur unicode : %s" % e
                         body += part.get_payload(decode=True)
-                    debug(("369: BODY = %s " % body))
+                    xbmc.log(("[%s] : 369: BODY = %s " % (scriptid, body)), DEBUG_LOG)
             elif part.get_content_type() == "text/html":
                 # Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
@@ -382,24 +385,24 @@ class MailWindow(xbmcgui.WindowXML):
                             html = h.handle(raw_html)
                         # Try to fix error unicode if no charset defined
                         except Exception, e:
-                            debug(("395: Error : %s, CHARSET = %s " % (e, part.get_content_charset())))
+                            xbmc.log(("[%s] : 395: Error : %s, CHARSET = %s " % (scriptid, e, part.get_content_charset())), DEBUG_LOG)
                             raw_html = raw_html.decode('utf-8', 'replace')
                             html = h.handle(raw_html)
-                            debug("398: RAW_HTML None OK")
+                            xbmc.log(("[%s] : 398: RAW_HTML None OK" % scriptid), DEBUG_LOG)
                     else:
                         # Decode in UTF-8 with kown charset
                         raw_html = part.get_payload(decode=True)
                         charset_msg = part.get_content_charset()
-                        debug(("404: CHARSET text/html = %s " % part.get_content_charset()))
+                        xbmc.log(("[%s] : 404: CHARSET text/html = %s " % (scriptid, part.get_content_charset())), DEBUG_LOG)
                         try:
                             html = raw_html.decode(charset_msg)
                             html = h.handle(html)
                         except Exception, e:
-                            debug(("408: HTML error : %s\n" % e))
+                            xbmc.log(("[%s] : 408: HTML error : %s\n" % (scriptid, e)), DEBUG_LOG)
                             # html = htlm2text(raw_html)
-                            debug(("410: HTML OK : %s\n" % html))
+                            xbmc.log(("[%s] : 410: HTML OK : %s\n" % (scriptid, html)), DEBUG_LOG)
                 except Exception, e:
-                    debug(("412: ERROR HTML = %s , %s" % (str(e), charset_msg)))
+                    xbmc.log(("[%s] : 412: ERROR HTML = %s , %s" % (scriptid, str(e), charset_msg)), DEBUG_LOG)
 
             realname = parseaddr(msgobj.get('From'))[1]
         Sujet = subject
@@ -409,7 +412,7 @@ class MailWindow(xbmcgui.WindowXML):
             try:
                 description += body.encode('utf-8', 'replace')
             except Exception, e:
-                debug(("422: Error Body text/plain : %s " % e))
+                xbmc.log(("[%s] : 422: Error Body text/plain : %s " % (scriptid, e)), DEBUG_LOG)
                 description += body.decode('utf-8', 'replace')
         # if text/html html is define
         if (html):
@@ -417,16 +420,16 @@ class MailWindow(xbmcgui.WindowXML):
                 # debug('Charset : %s ' % charset_msg)
                 description += html.encode('utf-8', 'replace')
             except Exception, e:
-                debug("430: DESC error : %s" % str(e))
+                xbmc.log(("[%s] : 430: DESC error : %s" % (scriptid, str(e))), DEBUG_LOG)
         # Nb of lines msg for scroll text
         self.nb_lignes = description.count("\n")
         listitem = xbmcgui.ListItem(label2=realname, label=Sujet)
         listitem.setProperty("realname", realname)
         att_file = Addon.getLocalizedString(30133) + att_file
 	try:
-	    debug(("437: attached files : %s" % att_file))
+	    xbmc.log(("[%s] : 437: attached files : %s" % (scriptid, att_file)), DEBUG_LOG)
 	except:
-	    debug("458: Erreur code ASCII")
+	    xbmc.log(("[%s] : 458: Erreur code ASCII" % scriptid), DEBUG_LOG)
         listitem.setProperty("date", date)
         listitem.setProperty("att_files", att_file)
         description = description + '*'
@@ -435,9 +438,9 @@ class MailWindow(xbmcgui.WindowXML):
         if 'attached_images' in locals():
             counter = 0
             for name_image in attached_images:
-                debug(('448: attached %s ' % attached_images))
+                xbmc.log(('[%s] : 448: attached %s ' % (scriptid, attached_images)), DEBUG_LOG)
                 counter += 1
-                debug(('450: image%s, IMAGE : %s ' % (counter, name_image)))
+                xbmc.log(('450: image%s, IMAGE : %s ' % (scriptid, counter, name_image)), DEBUG_LOG)
                 listitem.setProperty(('image%s' % counter), name_image)
 
         # Add the background
@@ -467,7 +470,7 @@ class MailWindow(xbmcgui.WindowXML):
             # numEmails = len(imap.search(None, 'UnSeen')[1][0].split())
             # numEmails = len(imap.search(None, 'ALL')[1][0].split())
             numEmails = len(imap.search(None, SEARCH_PARAM)[1][0].split())
-            debug(("478: You have %d emails IMAP" % numEmails))
+            xbmc.log(("[%s] : 478: You have %d emails IMAP" % (scriptid,numEmails)), DEBUG_LOG)
             # Display number of msg
             self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
             dialog.close()
@@ -492,7 +495,7 @@ class MailWindow(xbmcgui.WindowXML):
                     progressDialog2.update(up,
                                            Addon.getLocalizedString(id=618),  # Get mail
                                            Addon.getLocalizedString(id=619))  # Please wait
-                    debug("508: UP = %d " % up)
+                    xbmc.log(("[%s] : 508: UP = %d " % (scriptid, up)), DEBUG_LOG)
                     text = data[0][1].strip()
                     self.processMails(text, att_file)
                 progressDialog2.close()
@@ -500,7 +503,7 @@ class MailWindow(xbmcgui.WindowXML):
             self.getControl(EMAIL_LIST).selectItem(0)
             imap.logout
         except Exception, e:
-            debug(('516: IMAP exception : %s' % str(e)))
+            xbmc.log(('[%s] : 516: IMAP exception : %s' % (scriptid, str(e))), DEBUG_LOG)
 
     def onAction(self, action):
         """
@@ -518,12 +521,12 @@ class MailWindow(xbmcgui.WindowXML):
             if (self.position > 0):
                 self.position = self.position - 1
             self.getControl(MSG_BODY).scroll(self.position)
-            debug("534: Position F = %d " % self.position)
+            xbmc.log(("[%s] : 534: Position F = %d " % (scriptid, self.position)), DEBUG_LOG)
         if (action == ACTION_REWIND):  # PageUp
             if (self.position <= self.nb_lignes):
                 self.position = self.position + 1
             self.getControl(MSG_BODY).scroll(self.position)
-            debug("539: Position R = %d " % self.position)
+            xbmc.log(("[%s] : 539: Position R = %d " % (scriptid, self.position)), DEBUG_LOG)
 
     def onClick(self, controlId):
         """Action on click button"""
