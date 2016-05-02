@@ -17,24 +17,24 @@ import os, re, glob
 
 from re import compile as Pattern
 
-__author__     = "Senufo"
-__scriptid__   = "script.courrier"
-__scriptname__ = "Courrier"
+author     = "Senufo"
+scriptid   = "script.courrier"
+scriptname = "Courrier"
 
-__addon__      = xbmcaddon.Addon(__scriptid__)
+addon      = xbmcaddon.Addon(scriptid)
 
-__cwd__        = __addon__.getAddonInfo('path')
-__version__    = __addon__.getAddonInfo('version')
-__language__   = __addon__.getLocalizedString
+cwd        = addon.getAddonInfo('path')
+version    = addon.getAddonInfo('version')
+language   = addon.getLocalizedString
 
-__profile__    = xbmc.translatePath(__addon__.getAddonInfo('profile'))
-#__resource__   = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib'))
+profile    = xbmc.translatePath(addon.getAddonInfo('profile'))
+#__resource__   = xbmc.translatePath(os.path.join(cwd, 'resources', 'lib'))
 
-__skindir__    = xbmc.getSkinDir()
+skindir    = xbmc.getSkinDir()
 
-# print "Profile : %s " % __profile__
+# print "Profile : %s " % profile
 # print "Resource : %s " % __resource__
-# print "CWD : %s " % __cwd__
+# print "CWD : %s " % cwd
 
 
 import sys
@@ -55,30 +55,30 @@ import html2text
 
 #sys.path.append(__resource__)
 
-DEBUG_LOG = __addon__.getSetting('Debug')
+DEBUG_LOG = addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = True
 else: DEBUG_LOG = False
 # DEBUG_LOG = True
 # Defaults options for html2text module
 
-UNICODE_SNOB = __addon__.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
-ESCAPE_SNOB = __addon__.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
-LINKS_EACH_PARAGRAPH = __addon__.getSetting('LINKS_EACH_PARAGRAPH')  # LINKS_EACH_PARAGRAPH=0
-BODY_WIDTH = __addon__.getSetting('BODY_WIDTH')                      # BODY_WIDTH=78
-SKIP_INTERNAL_LINKS = __addon__.getSetting('SKIP_INTERNAL_LINKS')    # SKIP_INTERNAL_LINKS=True
+UNICODE_SNOB = addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
+ESCAPE_SNOB = addon.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
+LINKS_EACH_PARAGRAPH = addon.getSetting('LINKS_EACH_PARAGRAPH')  # LINKS_EACH_PARAGRAPH=0
+BODY_WIDTH = addon.getSetting('BODY_WIDTH')                      # BODY_WIDTH=78
+SKIP_INTERNAL_LINKS = addon.getSetting('SKIP_INTERNAL_LINKS')    # SKIP_INTERNAL_LINKS=True
 if 'true' in SKIP_INTERNAL_LINKS: SKIP_INTERNAL_LINKS = True
 else: SKIP_INTERNAL_LINKS = False
-INLINE_LINKS = __addon__.getSetting('INLINE_LINKS')                  # INLINE_LINKS=True
+INLINE_LINKS = addon.getSetting('INLINE_LINKS')                  # INLINE_LINKS=True
 if 'true' in INLINE_LINKS: INLINE_LINKS = True
 else: INLINE_LINKS = False
-GOOGLE_LIST_INDENT = __addon__.getSetting('GOOGLE_LIST_INDENT')      # GOOGLE_LIST_INDENT=36
-IGNORE_ANCHORS = __addon__.getSetting('IGNORE_ANCHORS')              # IGNORE_ANCHORS=False
+GOOGLE_LIST_INDENT = addon.getSetting('GOOGLE_LIST_INDENT')      # GOOGLE_LIST_INDENT=36
+IGNORE_ANCHORS = addon.getSetting('IGNORE_ANCHORS')              # IGNORE_ANCHORS=False
 if 'true' in IGNORE_ANCHORS: IGNORE_ANCHORS = True
 else: IGNORE_ANCHORS = False
-IGNORE_IMAGES = __addon__.getSetting('IGNORE_IMAGES')                # IGNORE_IMAGES=True
+IGNORE_IMAGES = addon.getSetting('IGNORE_IMAGES')                # IGNORE_IMAGES=True
 if 'true' in IGNORE_IMAGES: IGNORE_IMAGES = True
 else: IGNORE_IMAGES = False
-IGNORE_EMPHASIS = __addon__.getSetting('IGNORE_EMPHASIS')            # IGNORE_EMPHASIS=False
+IGNORE_EMPHASIS = addon.getSetting('IGNORE_EMPHASIS')            # IGNORE_EMPHASIS=False
 if 'true' in IGNORE_EMPHASIS: IGNORE_EMPHASIS = True
 else: IGNORE_EMPHASIS = False
 
@@ -87,13 +87,13 @@ def debug(msg):
     """
     print message if DEBUG_LOG == True.
     """
-    if DEBUG_LOG is True: print " [%s] : %s " % (__scriptid__, msg)
-# debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (__skindir__, __profile__,__resource__) ))
+    if DEBUG_LOG is True: print " [%s] : %s " % (scriptid, msg)
+# debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (skindir, profile,__resource__) ))
 
 # Directory for attached file(s)
 # Test if directory for attached file exist
 try:
-    tmp = "%s%s" % (__profile__, 'tmp')
+    tmp = "%s%s" % (profile, 'tmp')
     debug("97: TMP : %s " % tmp)
     DATA_PATH = xbmc.translatePath(tmp)
 except Exception, e:
@@ -116,9 +116,9 @@ else:
 #    Verify file configuration exist
 #    # if not load file config courrier
 #    if not (Addon.getSetting( 'name1' )):
-#        Addon = xbmcaddon.Addon(__addon__)
+#        Addon = xbmcaddon.Addon(addon)
 # except:
-Addon = xbmcaddon.Addon(__scriptid__)
+Addon = xbmcaddon.Addon(scriptid)
 # get actioncodes from keymap.xml/ keys.h
 ACTION_PREVIOUS_MENU = 10
 ACTION_SELECT_ITEM     = 7
@@ -265,7 +265,7 @@ class MailWindow(xbmcgui.WindowXML):
             self.getControl(EMAIL_LIST).reset()
         else:
             dialog.create(Addon.getLocalizedString(id=613),  # Inbox
-                          Addon.getLocalizedString(id=615) + str(numEmails) + # You have 
+                          Addon.getLocalizedString(id=615) + str(numEmails) + # You have
                           Addon.getLocalizedString(id=616)) # emails
             # Retrieve list of mails
             resp, items, octets = mail.list()
@@ -282,7 +282,7 @@ class MailWindow(xbmcgui.WindowXML):
             for item in items:
                 i = i + 1
                 id, size = string.split(item)
-                up = (i*100)/numEmails               
+                up = (i*100)/numEmails
                 progressDialog.update(up,
                                       Addon.getLocalizedString(id=618),  # Get mail
                                       Addon.getLocalizedString(id=619))  # Please wait
@@ -488,7 +488,7 @@ class MailWindow(xbmcgui.WindowXML):
                 self.getControl(EMAIL_LIST).reset()
             else:
                 progressDialog2 = xbmcgui.DialogProgress()
-                progressDialog2.create(Addon.getLocalizedString(id=617),  # Message(s) 
+                progressDialog2.create(Addon.getLocalizedString(id=617),  # Message(s)
                                        Addon.getLocalizedString(id=618))  # Get mail
                 i = 0
 #        ##Retrieve list of mails
@@ -501,7 +501,7 @@ class MailWindow(xbmcgui.WindowXML):
                 for num in data[0].split():
                     i = i + 1
                     typ, data = imap.fetch(num, '(RFC822)')
-                    up = (i*100)/numEmails                
+                    up = (i*100)/numEmails
                     progressDialog2.update(up,
                                            Addon.getLocalizedString(id=618),  # Get mail
                                            Addon.getLocalizedString(id=619))  # Please wait
@@ -547,6 +547,6 @@ class MailWindow(xbmcgui.WindowXML):
         elif (controlId == QUIT):
             self.close()
 
-mydisplay = MailWindow("script-courrier-main.xml", __cwd__, "Default")
+mydisplay = MailWindow("script-courrier-main.xml", cwd, "Default")
 mydisplay .doModal()
 del mydisplay
