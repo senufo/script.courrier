@@ -28,21 +28,12 @@ version    = addon.getAddonInfo('version')
 language   = addon.getLocalizedString
 
 profile    = xbmc.translatePath(addon.getAddonInfo('profile'))
-#__resource__   = xbmc.translatePath(os.path.join(cwd, 'resources', 'lib'))
-
 skindir    = xbmc.getSkinDir()
-
-# print "Profile : %s " % profile
-# print "Resource : %s " % __resource__
-# print "CWD : %s " % cwd
-
 
 import sys
 import time
-# from time import gmtime, strftime
 import poplib, imaplib
 import string
-
 
 import email
 from email.Parser import Parser as EmailParser
@@ -53,7 +44,6 @@ from email.Header import decode_header
 # from html2text import *
 import html2text
 
-#sys.path.append(__resource__)
 
 DEBUG_LOG = addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = True
@@ -493,9 +483,6 @@ class MailWindow(xbmcgui.WindowXML):
                 i = 0
 #        ##Retrieve list of mails
                 typ, data = imap.search('UTF-8', SEARCH_PARAM)
-                # typ, data = imap.search(None, '(FROM "dvbkivabien")')
-                # typ, data = imap.search(None, '(FROM "vdr")')
-                # typ, data = imap.search(None, '(FROM "vmle-rts")')
                 # typ, data = imap.search(None, 'UnSeen')
                 # typ, data = imap.search(None, 'ALL')
                 for num in data[0].split():
