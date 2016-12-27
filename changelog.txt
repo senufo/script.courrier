@@ -1,36 +1,34 @@
-0.0.1
-- initial commit
-0.0.1
-- use a skin xml file for mail window
-0.0.2
-- add quit button
-0.0.3
-- add scroll for message body
-0.0.4
-- change skin WinMail.py
-0.0.6
-- First version with partial IMAP support
-0.0.7
-- Complete IMAP support
-0.0.8
-- Add filter seach parameter for IMAP
-0.0.9
-- Cleanning code
-- Change name of skin file
-0.1
-- Remove TODO file
-- Remove gmail icon file
-- Add Autoscroll text in xml skin file
-0.1.1
-- Fix bug in translate messages
-0.1.2
-- Fix error when no config file with script.notifier
-- Remove TAB in code
-0.1.3
-- Change python version for HELIX and Gotham
-0.2.1
-- Fix warnings
 0.2.2
 - Fix error ASCII code with debug messages
 - Fix error in pop3.stat function
 - Test to Isengard and Jarvis Kodi version
+0.2.1
+- Fix warnings
+0.1.3
+- Change python version for HELIX and Gotham
+0.1.2
+- Fix error when no config file with script.notifier
+- Remove TAB in code
+0.1.1
+- Fix bug in translate messages
+0.1
+- Remove TODO file
+- Remove gmail icon file
+- Add Autoscroll text in xml skin file
+0.0.9
+- Cleanning code
+- Change name of skin file
+0.0.8
+- Add filter seach parameter for IMAP
+0.0.7
+- Complete IMAP support
+0.0.6
+- First version with partial IMAP support
+0.0.4
+- change skin WinMail.py
+0.0.3
+- add scroll for message body
+0.0.2
+- add quit button
+0.0.1
+- use a skin xml file for mail window
