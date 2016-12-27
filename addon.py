@@ -3,33 +3,12 @@
 """
 kodi script for read mail on IMAP/POP server.
 """
-
-# Senufo, 2011 (c)
-#
-# Date : mercredi 30 novembre 2011, 19:14:13 (UTC+0100)
-# $Author: Senufo $
-
 # Modules xbmc
 import xbmc
 import xbmcgui
 import xbmcaddon
 import os, re, glob
-
 from re import compile as Pattern
-
-author     = "Senufo"
-scriptid   = "script.courrier"
-scriptname = "Courrier"
-
-addon      = xbmcaddon.Addon(scriptid)
-
-cwd        = addon.getAddonInfo('path')
-version    = addon.getAddonInfo('version')
-language   = addon.getLocalizedString
-
-profile    = xbmc.translatePath(addon.getAddonInfo('profile'))
-skindir    = xbmc.getSkinDir()
-
 import sys
 import time
 import poplib, imaplib
@@ -44,16 +23,26 @@ from email.Header import decode_header
 # from html2text import *
 import html2text
 
+author     = "Senufo"
+scriptid   = "script.courrier"
+scriptname = "Courrier"
+
+addon      = xbmcaddon.Addon(scriptid)
+
+cwd        = addon.getAddonInfo('path')
+version    = addon.getAddonInfo('version')
+language   = addon.getLocalizedString
+
+profile    = xbmc.translatePath(addon.getAddonInfo('profile'))
+skindir    = xbmc.getSkinDir()
 
 DEBUG_LOG = addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = -1 #loglevel == 1 (DEBUG, shows all)
 else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log("DEBUG_LOG : %s" % DEBUG_LOG,DEBUG_LOG)
-#if 'true' in DEBUG_LOG: DEBUG_LOG = True
-#else: DEBUG_LOG = False
 # DEBUG_LOG = True
-# Defaults options for html2text module
 
+# Defaults options for html2text module
 UNICODE_SNOB = addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
 ESCAPE_SNOB = addon.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
 LINKS_EACH_PARAGRAPH = addon.getSetting('LINKS_EACH_PARAGRAPH')  # LINKS_EACH_PARAGRAPH=0
