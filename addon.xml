@@ -39,6 +39,7 @@ En bas vous avez la ligne d'état avec la date et le(s) nom(s) de(s) fichier(s) 
 Pour le serveur IMAP vous pouvez définir votre dossier et l'utilisation d'un filtre pour sélectionner les messages
     </description>
     <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
     <source>https://github.com/senufo/script.courrier</source>
   </extension>
 </addon>
