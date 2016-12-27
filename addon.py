@@ -27,50 +27,43 @@ author     = "Senufo"
 scriptid   = "script.courrier"
 scriptname = "Courrier"
 
-addon      = xbmcaddon.Addon(scriptid)
+Addon      = xbmcaddon.Addon(scriptid)
 
-cwd        = addon.getAddonInfo('path')
-version    = addon.getAddonInfo('version')
-language   = addon.getLocalizedString
+cwd        = Addon.getAddonInfo('path')
+version    = Addon.getAddonInfo('version')
+language   = Addon.getLocalizedString
 
-profile    = xbmc.translatePath(addon.getAddonInfo('profile'))
+profile    = xbmc.translatePath(Addon.getAddonInfo('profile'))
 skindir    = xbmc.getSkinDir()
 
-DEBUG_LOG = addon.getSetting('Debug')
+DEBUG_LOG = Addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = -1 #loglevel == 1 (DEBUG, shows all)
 else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log("DEBUG_LOG : %s" % DEBUG_LOG,DEBUG_LOG)
 # DEBUG_LOG = True
 
 # Defaults options for html2text module
-UNICODE_SNOB = addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
-ESCAPE_SNOB = addon.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
-LINKS_EACH_PARAGRAPH = addon.getSetting('LINKS_EACH_PARAGRAPH')  # LINKS_EACH_PARAGRAPH=0
-BODY_WIDTH = addon.getSetting('BODY_WIDTH')                      # BODY_WIDTH=78
-SKIP_INTERNAL_LINKS = addon.getSetting('SKIP_INTERNAL_LINKS')    # SKIP_INTERNAL_LINKS=True
+UNICODE_SNOB = Addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
+ESCAPE_SNOB = Addon.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
+LINKS_EACH_PARAGRAPH = Addon.getSetting('LINKS_EACH_PARAGRAPH')  # LINKS_EACH_PARAGRAPH=0
+BODY_WIDTH = Addon.getSetting('BODY_WIDTH')                      # BODY_WIDTH=78
+SKIP_INTERNAL_LINKS = Addon.getSetting('SKIP_INTERNAL_LINKS')    # SKIP_INTERNAL_LINKS=True
 if 'true' in SKIP_INTERNAL_LINKS: SKIP_INTERNAL_LINKS = True
 else: SKIP_INTERNAL_LINKS = False
-INLINE_LINKS = addon.getSetting('INLINE_LINKS')                  # INLINE_LINKS=True
+INLINE_LINKS = Addon.getSetting('INLINE_LINKS')                  # INLINE_LINKS=True
 if 'true' in INLINE_LINKS: INLINE_LINKS = True
 else: INLINE_LINKS = False
-GOOGLE_LIST_INDENT = addon.getSetting('GOOGLE_LIST_INDENT')      # GOOGLE_LIST_INDENT=36
-IGNORE_ANCHORS = addon.getSetting('IGNORE_ANCHORS')              # IGNORE_ANCHORS=False
+GOOGLE_LIST_INDENT = Addon.getSetting('GOOGLE_LIST_INDENT')      # GOOGLE_LIST_INDENT=36
+IGNORE_ANCHORS = Addon.getSetting('IGNORE_ANCHORS')              # IGNORE_ANCHORS=False
 if 'true' in IGNORE_ANCHORS: IGNORE_ANCHORS = True
 else: IGNORE_ANCHORS = False
-IGNORE_IMAGES = addon.getSetting('IGNORE_IMAGES')                # IGNORE_IMAGES=True
+IGNORE_IMAGES = Addon.getSetting('IGNORE_IMAGES')                # IGNORE_IMAGES=True
 if 'true' in IGNORE_IMAGES: IGNORE_IMAGES = True
 else: IGNORE_IMAGES = False
-IGNORE_EMPHASIS = addon.getSetting('IGNORE_EMPHASIS')            # IGNORE_EMPHASIS=False
+IGNORE_EMPHASIS = Addon.getSetting('IGNORE_EMPHASIS')            # IGNORE_EMPHASIS=False
 if 'true' in IGNORE_EMPHASIS: IGNORE_EMPHASIS = True
 else: IGNORE_EMPHASIS = False
 
-
-#def debug(msg):
-#    """
-#    print message if DEBUG_LOG == True.
-#    """
-#    if DEBUG_LOG is True: print " [%s] : %s " % (scriptid, msg)
-# debug(('SKIN DIR = %s, profile = %s, ressources = %s ' % (skindir, profile,__resource__) ))
 
 # Directory for attached file(s)
 # Test if directory for attached file exist
@@ -92,15 +85,7 @@ else:
         except:
             xbmc.log(('[%s] : 111: no file' % scriptid), DEBUG_LOG)
 
-# Use configuration file if exist notifier service
-# try:
-#    Addon = xbmcaddon.Addon('service.notifier')
-#    Verify file configuration exist
-#    # if not load file config courrier
-#    if not (Addon.getSetting( 'name1' )):
-#        Addon = xbmcaddon.Addon(addon)
-# except:
-Addon = xbmcaddon.Addon(scriptid)
+#Addon = xbmcaddon.Addon(scriptid)
 # get actioncodes from keymap.xml/ keys.h
 ACTION_PREVIOUS_MENU = 10
 ACTION_SELECT_ITEM     = 7
