@@ -262,7 +262,7 @@
         <width>1000</width>
         <height>340</height>
         <!-- <font>$INFO[Container(120).ListItem.Property(font)]</font> -->
-        <font>Font_channels</font>
+        <font>Font_lyrics</font>
         <!-- <font>Font_channels</font> -->
         <!-- <textcolor>yellow</textcolor> -->
         <textcolor>$INFO[Container(120).ListItem.Property(couleur)]</textcolor>
@@ -270,7 +270,7 @@
 	<!-- <aligny>center</aligny> -->
         <align>left</align>
 	<autoscroll time="3000" delay="4000" repeat="5000">True</autoscroll>
-        <label>[b]$INFO[Container(120).ListItem.Property(message)][/b]</label>
+        <label>$INFO[Container(120).ListItem.Property(message)]</label>
         <!-- <label>Police : Font_channels => $INFO[Container(120).ListItem.Property(font)], addon : $ADDON[script.courrier 30329]</label> -->
       </control>
 
