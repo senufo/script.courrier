@@ -170,7 +170,7 @@
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
           <label></label>
-          <font>Font_12</font>
+          <font>Font_yearshome</font>
           <textcolor>FFFFFFFF</textcolor>
           <disabledcolor>800000FF</disabledcolor>
           <onup>1003</onup>
@@ -189,7 +189,7 @@
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
           <label></label>
-          <font>Font_12</font>
+          <font>Font_yearshome</font>
           <textcolor>FFFFFFFF</textcolor>
           <disabledcolor>80FFFFFF</disabledcolor>
           <onup>1001</onup>
@@ -208,7 +208,7 @@
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
           <label></label>
-          <font>Font_12</font>
+          <font>Font_yearshome</font>
           <textcolor>FFFFFFFF</textcolor>
           <disabledcolor>80FFFFFF</disabledcolor>
           <onup>1002</onup>
@@ -228,7 +228,7 @@
           <visible>true</visible>
           <colordiffuse>FF909090</colordiffuse>
           <label>$ADDON[script.courrier 621]</label>
-          <font>Font_12</font>
+          <font>Font_yearshome</font>
           <textcolor>yellow</textcolor>
           <disabledcolor>00000000</disabledcolor>
           <onup>1003</onup>
