@@ -47,7 +47,8 @@ sys.path.append (xbmc.translatePath( os.path.join( scriptpath, 'resources', 'lib
 import MyFont
 MyFont.addfont( "Font24","aeon_common.ttf", "24")
 MyFont.addfont( "Font_titlemail","aeon_mainmenu1.ttf","40")
-MyFont.addfont( "Font_buttonmail","aeon_mainmenu6.ttf","20")
+MyFont.addfont( "Font_datemail","aeon_mainmenu1.ttf","30")
+MyFont.addfont( "Font_buttonmail","aeon_mainmenu6.ttf","25")
 MyFont.addfont( "Font_msg","aeon_mainmenu8.ttf","30")
 
 # Defaults options for html2text module
