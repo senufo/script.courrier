@@ -69,7 +69,7 @@
         <align>left</align>
         <label>$INFO[Container(120).ListItem.Property(date)]</label>
       </control>
-      
+
       <control type="label">
         <description>textarea : Attached files list Listitem (120) bottom</description>
         <posx>1000</posx>
@@ -82,7 +82,7 @@
         <align>right</align>
         <label>$INFO[Container(120).ListItem.Property(att_files)]</label>
       </control>
-      
+
       <control type="image">
         <description>Image : Display attached images</description>
         <posx>0</posx>
@@ -91,7 +91,7 @@
         <height>100</height>
         <texture>$INFO[Container(120).ListItem.Property(image1)]</texture>
       </control>
-      
+
       <control type="image">
         <description>Image : Display attached images</description>
         <posx>0</posx>
@@ -100,7 +100,7 @@
         <height>100</height>
         <texture>$INFO[Container(120).ListItem.Property(image2)]</texture>
       </control>
-      
+
       <control type="image">
         <description>Image : Display attached images</description>
         <posx>0</posx>
@@ -169,12 +169,12 @@
           <height>30</height>
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
-          <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus>
+          <!-- <texturefocus>default-list-focus.png</texturefocus>
+          <texturenofocus>default-list-nofocus.png</texturenofocus> -->
           <label></label>
           <font>Font_12</font>
           <textcolor>FFFFFFFF</textcolor>
-          <disabledcolor>80FFFFFF</disabledcolor>
+          <disabledcolor>800000FF</disabledcolor>
           <onup>1003</onup>
           <ondown>1002</ondown>
           <onleft>1004</onleft>
@@ -232,13 +232,13 @@
           <align>center</align>
           <height>30</height>
           <visible>true</visible>
-          <colordiffuse>FFFFFFFF</colordiffuse>
-          <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus>
+          <colordiffuse>FF909090</colordiffuse>
+          <!-- <texturefocus>default-list-focus.png</texturefocus>
+          <texturenofocus>default-list-nofocus.png</texturenofocus> -->
           <label>Quitter</label>
           <font>Font_12</font>
-          <textcolor>FFFFFFFF</textcolor>
-          <disabledcolor>80FFFFFF</disabledcolor>
+          <textcolor>yellow</textcolor>
+          <disabledcolor>00000000</disabledcolor>
           <onup>1003</onup>
           <ondown>1001</ondown>
           <onleft>120</onleft>
@@ -261,12 +261,17 @@
         <posy>250</posy>
         <width>1000</width>
         <height>340</height>
-        <font>font18</font>
-        <textcolor>white</textcolor>
+        <font>$INFO[Container(120).ListItem.Property(font)]</font>
+        <!-- <font>Font_channels</font> -->
+        <!-- <font>Font_channels</font> -->
+        <!-- <textcolor>yellow</textcolor> -->
+        <textcolor>$INFO[Container(120).ListItem.Property(couleur)]</textcolor>
+
 	<!-- <aligny>center</aligny> -->
         <align>left</align>
 	<autoscroll time="3000" delay="4000" repeat="5000">True</autoscroll>
-        <label>$INFO[Container(120).ListItem.Property(message)]</label>
+        <label>[b]$INFO[Container(120).ListItem.Property(message)][/b]</label>
+        <!-- <label>Police : Font_channels => $INFO[Container(120).ListItem.Property(font)], addon : $ADDON[script.courrier 30329]</label> -->
       </control>
 
 
