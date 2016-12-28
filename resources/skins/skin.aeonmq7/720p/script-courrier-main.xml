@@ -169,8 +169,6 @@
           <height>30</height>
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
-          <!-- <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus> -->
           <label></label>
           <font>Font_12</font>
           <textcolor>FFFFFFFF</textcolor>
@@ -190,8 +188,6 @@
           <height>30</height>
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
-          <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus>
           <label></label>
           <font>Font_12</font>
           <textcolor>FFFFFFFF</textcolor>
@@ -211,8 +207,6 @@
           <height>30</height>
           <visible>true</visible>
           <colordiffuse>FFFFFFFF</colordiffuse>
-          <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus>
           <label></label>
           <font>Font_12</font>
           <textcolor>FFFFFFFF</textcolor>
@@ -233,8 +227,6 @@
           <height>30</height>
           <visible>true</visible>
           <colordiffuse>FF909090</colordiffuse>
-          <!-- <texturefocus>default-list-focus.png</texturefocus>
-          <texturenofocus>default-list-nofocus.png</texturenofocus> -->
           <label>$ADDON[script.courrier 621]</label>
           <font>Font_12</font>
           <textcolor>yellow</textcolor>
