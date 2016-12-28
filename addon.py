@@ -169,7 +169,7 @@ class MailWindow(xbmcgui.WindowXML):
         self.getControl(STATUS_LABEL).setLabel('%s ...' % alias)
 
         # Empty the list of subject messages
-        # self.listControl.reset()
+        #self.listControl.reset()
         self.USER = ''
         self.NOM = ''
         self.SERVER = ''
@@ -449,7 +449,7 @@ class MailWindow(xbmcgui.WindowXML):
         dialog.create(Addon.getLocalizedString(id=614),
                       Addon.getLocalizedString(id=610))  # Inbox,Logging in
         # Reset ListBox msg
-        # self.getControl( EMAIL_LIST ).reset()
+        self.getControl( EMAIL_LIST ).reset()
         self.emails = []
         try:
             if self.SSL:
