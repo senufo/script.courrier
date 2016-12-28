@@ -246,24 +246,18 @@
         <texture>GMseparator.png</texture>
       </control>
 
-       <!-- Msg Text -->
-       <control type="textbox" id="102">
+      <!-- Msg Text -->
+      <control type="textbox" id="102">
         <description>textarea : mail body</description>
         <posx>180</posx>
         <posy>250</posy>
         <width>1000</width>
         <height>340</height>
-        <!-- <font>$INFO[Container(120).ListItem.Property(font)]</font> -->
         <font>Font_lyrics</font>
-        <!-- <font>Font_channels</font> -->
-        <!-- <textcolor>yellow</textcolor> -->
         <textcolor>$INFO[Container(120).ListItem.Property(couleur)]</textcolor>
-
-	<!-- <aligny>center</aligny> -->
         <align>left</align>
-	<autoscroll time="3000" delay="4000" repeat="5000">True</autoscroll>
+      	<autoscroll time="3000" delay="4000" repeat="5000">True</autoscroll>
         <label>$INFO[Container(120).ListItem.Property(message)]</label>
-        <!-- <label>Police : Font_channels => $INFO[Container(120).ListItem.Property(font)], addon : $ADDON[script.courrier 30329]</label> -->
       </control>
 
 
@@ -273,15 +267,15 @@
         <posx>180</posx>
         <posy>126</posy>
         <width>1040</width>
-	<height>120</height>
-	<onleft>1001</onleft>  <!-- control définiton -->
+	      <height>120</height>
+	      <onleft>1001</onleft>  <!-- control définiton -->
         <onright>1004</onright>
-	<!-- <onup>1001</onup>
-	<ondown>1003</ondown> -->
+	      <!-- <onup>1001</onup>
+      	<ondown>1003</ondown> -->
         <viewtype label="535">list</viewtype>
         <pagecontrol>121</pagecontrol>
         <scrolltime>200</scrolltime>
-	<itemlayout height="38"> <!-- items position in the list -->
+	      <itemlayout height="38"> <!-- items position in the list -->
           <control type="image">
             <posx>0</posx>
             <posy>36</posy>
@@ -289,7 +283,6 @@
             <height>2</height>
             <texture border="10">default-list-nofocus.png</texture>
           </control>
-
           <control type="label">
             <posx>10</posx> <!-- no selected item position -->
             <posy>0</posy>
@@ -302,7 +295,6 @@
             <align>left</align>
             <info>ListItem.Label</info>
           </control>
-
           <control type="label">
             <posx>500</posx> <!-- position  2th element no selected -->
             <posy>0</posy>
@@ -315,7 +307,6 @@
             <align>left</align>
             <info>ListItem.Label2</info>
           </control>
-
         </itemlayout>
         <focusedlayout height="38">
           <control type="image"> <!-- Selected item Image -->
@@ -326,7 +317,6 @@
             <texture border="10">default-list-focus.png</texture>
             <visible>Control.HasFocus(120)</visible>
           </control>
-
           <control type="label">
             <posx>10</posx>
             <posy>0</posy>
@@ -339,7 +329,6 @@
             <align>left</align>
             <info>ListItem.Label</info>
           </control>
-
           <control type="label">
             <posx>500</posx>
             <posy>0</posy>
@@ -351,8 +340,7 @@
             <selectedcolor>green</selectedcolor>
             <align>left</align>
             <info>ListItem.Property(realname)</info>
-	  </control>
-
+	        </control>
         </focusedlayout>
       </control>
       <control type="group">
