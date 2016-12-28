@@ -59,6 +59,10 @@ msgctxt "#620"
 msgid "Problem connecting to server : %s"
 msgstr ""
 
+msgctxt "#621"
+msgid "Quit"
+msgstr ""
+
 msgctxt "#30100"
 msgid "Server name"
 msgstr ""
@@ -156,4 +160,3 @@ msgstr ""
 msgctxt "#30129"
 msgid "IGNORE_EMPHASIS"
 msgstr ""
-
