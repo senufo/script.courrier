@@ -32,15 +32,15 @@ Addon      = xbmcaddon.Addon(scriptid)
 cwd        = Addon.getAddonInfo('path')
 version    = Addon.getAddonInfo('version')
 language   = Addon.getLocalizedString
-
+scriptpath = Addon.getAddonInfo('path').decode('utf-8')
 profile    = xbmc.translatePath(Addon.getAddonInfo('profile'))
 skindir    = xbmc.getSkinDir()
 
 DEBUG_LOG = Addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = -1 #loglevel == 1 (DEBUG, shows all)
 else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
-xbmc.log("DEBUG_LOG : %s" % DEBUG_LOG,DEBUG_LOG)
-# DEBUG_LOG = True
+xbmc.log(("[%s] : DEBUG_LOG : %s" % (scriptid,DEBUG_LOG)),DEBUG_LOG)
+xbmc.log(("[%s] : skindir : %s, cwd : %s, profile : %s, scriptpath : %s" % (scriptid,skindir,cwd, profile,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
 
 # Defaults options for html2text module
 UNICODE_SNOB = Addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
@@ -284,7 +284,7 @@ class MailWindow(xbmcgui.WindowXML):
             subject = ''.join(subj_fragments)
         else:
             subject = None
-        date = Addon.getLocalizedString(30132)
+        date = Addon.getLocalizedString(32132)
         if msgobj['Date'] is not None:
             date += msgobj['Date']
         Sujet = subject
@@ -332,7 +332,7 @@ class MailWindow(xbmcgui.WindowXML):
                     except Exception, e:
                         # body += "Erreur unicode : %s" % e
                         body += part.get_payload(decode=True)
-                    xbmc.log(("[%s] : 369: BODY = %s " % (scriptid, body)), DEBUG_LOG)
+                    #xbmc.log(("[%s] : 369: BODY = %s " % (scriptid, body)), DEBUG_LOG)
             elif part.get_content_type() == "text/html":
                 # Define defaults parameters for html2text object
                 h = html2text.HTML2Text()
@@ -399,7 +399,7 @@ class MailWindow(xbmcgui.WindowXML):
         self.nb_lignes = description.count("\n")
         listitem = xbmcgui.ListItem(label2=realname, label=Sujet)
         listitem.setProperty("realname", realname)
-        att_file = Addon.getLocalizedString(30133) + att_file
+        att_file = Addon.getLocalizedString(32133) + att_file
 	try:
 	    xbmc.log(("[%s] : 437: attached files : %s" % (scriptid, att_file)), DEBUG_LOG)
 	except:
@@ -414,12 +414,19 @@ class MailWindow(xbmcgui.WindowXML):
             for name_image in attached_images:
                 xbmc.log(('[%s] : 448: attached %s ' % (scriptid, attached_images)), DEBUG_LOG)
                 counter += 1
-                xbmc.log(('450: image%s, IMAGE : %s ' % (scriptid, counter, name_image)), DEBUG_LOG)
+                xbmc.log(('[%s] : 450: image%s, IMAGE : %s ' % (scriptid, counter, name_image)), DEBUG_LOG)
                 listitem.setProperty(('image%s' % counter), name_image)
 
         # Add the background
+        police_sel = listitem.getProperty('font')
+        xbmc.log(('[%s] : 421: font : %s ' % (scriptid, police_sel)), DEBUG_LOG)
         listitem.setProperty('background', BACKGROUND)
+        listitem.setProperty('font', 'Font_channels')
+        listitem.setProperty('couleur', 'yellow')
 
+        #textColor = self.getControl(MSG_BODY).getProperty('textColor')
+        #police_sel = self.getControl(MSG_BODY).getProperty('font')
+        #xbmc.log(('[%s] : 426: font : %s, Color : %s ' % (scriptid, police_sel, textColor)), DEBUG_LOG)
         self.getControl(EMAIL_LIST).addItem(listitem)
 
     def getImapMails(self):
