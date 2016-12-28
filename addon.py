@@ -41,6 +41,13 @@ else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log(("[%s] : DEBUG_LOG : %s" % (scriptid,DEBUG_LOG)),DEBUG_LOG)
 xbmc.log(("[%s] : skindir : %s, scriptpath : %s" % (scriptid,skindir,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
 
+#for addfont
+#Add path for my library
+sys.path.append (xbmc.translatePath( os.path.join( scriptpath, 'resources', 'lib' ) ))
+import MyFont
+MyFont.addfont( "mail_font", "mail_font.ttf", "20" )
+MyFont.addfont( "mail_font40", "mail_font.ttf", "40" )
+
 # Defaults options for html2text module
 UNICODE_SNOB = Addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
 ESCAPE_SNOB = Addon.getSetting('ESCAPE_SNOB')                    # ESCAPE_SNOB=0
@@ -179,6 +186,7 @@ class MailWindow(xbmcgui.WindowXML):
             SSL = Addon.getSetting('ssl%i' % i) == "true"
             TYPE = Addon.getSetting('type%i' % i)
             FOLDER = Addon.getSetting('folder%i' % i)
+
             # Search selected server
             if (alias == NOM):
                 self.NOM = NOM
@@ -199,7 +207,7 @@ class MailWindow(xbmcgui.WindowXML):
                     xbmc.log(('[%s] : Error Server Type : %s' % (scriptid, str(e))), DEBUG_LOG)
                     dialog = xbmcgui.DialogProgress()
                     dialog.create(Addon.getLocalizedString(id=614),
-                                  Addon.getLocalizedString(id=620) % self.SERVER)
+                                  Addon.getLocalizedString(id=620) % SERVER)
                     time.sleep(5)
                     dialog.close()
 
@@ -216,13 +224,14 @@ class MailWindow(xbmcgui.WindowXML):
             mail = poplib.POP3(str(self.SERVER), int(self.PORT))
         mail.user(str(self.USER))
         mail.pass_(str(self.PASSWORD))
-	try:
-		(numEmails, mailboxsize) = mail.stat()
-	except Exception, e:
-		xbmc.log(("[%s] : Erreur stat : %s<=" % str(e)), DEBUG_LOG)
-        xbmc.log(("[%s] : 258 : You have %d emails " % numEmails), DEBUG_LOG)
+        try:
+            numEmails = mail.stat()[0]
+        except Exception, e:
+            xbmc.log(("[%s] : Erreur stat : %s<=" % (scriptid,str(e))), DEBUG_LOG)
+
+        xbmc.log(("[%s] : You have %d emails " % (scriptid, numEmails)), DEBUG_LOG)
         # Display the number of msg
-        self.getControl(NX_MAIL).setLabel('%d msg(s)' % numEmails)
+        self.getControl(NX_MAIL).setLabel('%d msg(sx)' % numEmails)
         dialog.close()
         if numEmails == 0:
             dialogOK = xbmcgui.Dialog()
@@ -235,7 +244,8 @@ class MailWindow(xbmcgui.WindowXML):
                           Addon.getLocalizedString(id=616)) # emails
             # Retrieve list of mails
             resp, items, octets = mail.list()
-            xbmc.log(("[%s] : 272: resp %s, %s " % (resp, items)), DEBUG_LOG)
+            xbmc.log(("[%s] : 272: resp %s " % (scriptid, resp)), DEBUG_LOG)
+            xbmc.log(("[%s] : 272: items %s" % (scriptid, items)), DEBUG_LOG)
             dialog.close()
             # Get all messages for display
             progressDialog = xbmcgui.DialogProgress()
