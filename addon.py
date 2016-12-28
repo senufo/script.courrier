@@ -41,12 +41,14 @@ else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log(("[%s] : DEBUG_LOG : %s" % (scriptid,DEBUG_LOG)),DEBUG_LOG)
 xbmc.log(("[%s] : skindir : %s, scriptpath : %s" % (scriptid,skindir,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
 
-#for addfont
+#for add a specific font to the selectd skin
 #Add path for my library
 sys.path.append (xbmc.translatePath( os.path.join( scriptpath, 'resources', 'lib' ) ))
 import MyFont
-MyFont.addfont( "mail_font", "mail_font.ttf", "20" )
-MyFont.addfont( "mail_font40", "mail_font.ttf", "40" )
+MyFont.addfont( "Font24","aeon_common.ttf", "24")
+MyFont.addfont( "Font_titlemail","aeon_mainmenu1.ttf","40")
+MyFont.addfont( "Font_buttonmail","aeon_mainmenu6.ttf","20")
+MyFont.addfont( "Font_msg","aeon_mainmenu8.ttf","30")
 
 # Defaults options for html2text module
 UNICODE_SNOB = Addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
@@ -532,6 +534,8 @@ if (skindir != 'skin.aeonmq7'):
     defaultSkin = 'Default'
 else:
     defaultSkin = skindir
+defaultSkin = 'Default'
+xbmc.log(('[%s] : %s, %s' % (scriptid,scriptpath, defaultSkin)), DEBUG_LOG)
 mydisplay = MailWindow("script-courrier-main.xml", scriptpath, defaultSkin)
 mydisplay .doModal()
 del mydisplay
