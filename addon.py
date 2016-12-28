@@ -29,18 +29,17 @@ scriptname = "Courrier"
 
 Addon      = xbmcaddon.Addon(scriptid)
 
-cwd        = Addon.getAddonInfo('path')
 version    = Addon.getAddonInfo('version')
 language   = Addon.getLocalizedString
 scriptpath = Addon.getAddonInfo('path').decode('utf-8')
-profile    = xbmc.translatePath(Addon.getAddonInfo('profile'))
+
 skindir    = xbmc.getSkinDir()
 
 DEBUG_LOG = Addon.getSetting('Debug')
 if 'true' in DEBUG_LOG: DEBUG_LOG = -1 #loglevel == 1 (DEBUG, shows all)
 else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log(("[%s] : DEBUG_LOG : %s" % (scriptid,DEBUG_LOG)),DEBUG_LOG)
-xbmc.log(("[%s] : skindir : %s, cwd : %s, profile : %s, scriptpath : %s" % (scriptid,skindir,cwd, profile,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
+xbmc.log(("[%s] : skindir : %s, scriptpath : %s" % (scriptid,skindir,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
 
 # Defaults options for html2text module
 UNICODE_SNOB = Addon.getSetting('UNICODE_SNOB')                  # UNICODE_SNOB=0
@@ -68,8 +67,8 @@ else: IGNORE_EMPHASIS = False
 # Directory for attached file(s)
 # Test if directory for attached file exist
 try:
-    tmp = "%s%s" % (profile, 'tmp')
-    xbmc.log(("[%s] : 97: TMP : %s " % (scriptid, tmp)), DEBUG_LOG)
+    tmp = "%s/%s" % (scriptpath, 'tmp')
+    xbmc.log(("[%s] : 97: Directory of attached files : %s " % (scriptid, tmp)), DEBUG_LOG)
     DATA_PATH = xbmc.translatePath(tmp)
 except Exception, e:
     xbmc.log(("[%s] : 100: error : %s" % (scriptid, e)), DEBUG_LOG)
@@ -518,6 +517,11 @@ class MailWindow(xbmcgui.WindowXML):
         elif (controlId == QUIT):
             self.close()
 
-mydisplay = MailWindow("script-courrier-main.xml", cwd, "Default")
+#Create window for display mails
+if (skindir != 'skin.aeonmq7'):
+    defaultSkin = 'Default'
+else:
+    defaultSkin = skindir
+mydisplay = MailWindow("script-courrier-main.xml", scriptpath, defaultSkin)
 mydisplay .doModal()
 del mydisplay
