@@ -15,7 +15,7 @@ from traceback import print_exc
 import xbmc
 import xbmcaddon
 
-scriptid   = "script.myfont"
+scriptid   = "script.courrier"
 DEBUG_LOG = -1
 
 Addon      = xbmcaddon.Addon(scriptid)
