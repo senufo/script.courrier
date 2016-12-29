@@ -19,10 +19,6 @@ from email.Parser import Parser as EmailParser
 from email.utils import parseaddr
 from email.Header import decode_header
 
-# Script html2text.py in resources/lib
-# from html2text import *
-import html2text
-
 author     = "Senufo"
 scriptid   = "script.courrier"
 scriptname = "Courrier"
@@ -41,9 +37,12 @@ else: DEBUG_LOG = 1 #(NONE, nothing at all is logged)
 xbmc.log(("[%s] : DEBUG_LOG : %s" % (scriptid,DEBUG_LOG)),DEBUG_LOG)
 xbmc.log(("[%s] : skindir : %s, scriptpath : %s" % (scriptid,skindir,scriptpath)),DEBUG_LOG)# DEBUG_LOG = True
 
-#for add a specific font to the selectd skin
+
 #Add path for my library
 sys.path.append (xbmc.translatePath( os.path.join( scriptpath, 'resources', 'lib' ) ))
+# Script html2text.py in resources/lib
+import html2text
+#for add a specific font to the selectd skin
 import MyFont
 MyFont.addfont( "Font24","aeon_common.ttf", "24")
 MyFont.addfont( "Font_titlemail","aeon_mainmenu1.ttf","40")
