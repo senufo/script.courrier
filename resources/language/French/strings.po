@@ -20,7 +20,7 @@ msgid "Logging in..."
 msgstr "Connexion au serveur..."
 
 msgctxt "#611"
-msgid "(%s) New e-mail%s"
+msgid "(%s) New e-mail"
 msgstr "(%s) Nouveau(x) courriels"
 
 msgctxt "#612"
