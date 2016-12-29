@@ -1,4 +1,5 @@
-- verify and fix ID settings : 
+- Add test error if bad server pop or imap name
+- verify and fix ID settings :
 
 	String ID range:
 
