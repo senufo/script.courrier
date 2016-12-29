@@ -209,7 +209,7 @@ class MailWindow(xbmcgui.WindowXML):
                     xbmc.log(('[%s] : Error Server Type : %s' % (scriptid, str(e))), DEBUG_LOG)
                     dialog = xbmcgui.DialogProgress()
                     dialog.create(Addon.getLocalizedString(id=614),
-                                  Addon.getLocalizedString(id=620) % SERVER)
+                                  Addon.getLocalizedString(id=620) % self.SERVER)
                     time.sleep(5)
                     dialog.close()
 
@@ -432,12 +432,8 @@ class MailWindow(xbmcgui.WindowXML):
         police_sel = listitem.getProperty('font')
         xbmc.log(('[%s] : 421: font : %s ' % (scriptid, police_sel)), DEBUG_LOG)
         listitem.setProperty('background', BACKGROUND)
-        listitem.setProperty('font', 'Font_channels')
         listitem.setProperty('couleur', 'yellow')
 
-        #textColor = self.getControl(MSG_BODY).getProperty('textColor')
-        #police_sel = self.getControl(MSG_BODY).getProperty('font')
-        #xbmc.log(('[%s] : 426: font : %s, Color : %s ' % (scriptid, police_sel, textColor)), DEBUG_LOG)
         self.getControl(EMAIL_LIST).addItem(listitem)
 
     def getImapMails(self):
@@ -501,8 +497,6 @@ class MailWindow(xbmcgui.WindowXML):
         """
         Select action after remote control.
         """
-        # debug( "ID Action %d" % action.getId() )
-        # debug( "Code Action %d" % action.getButtonCode() )
         if action == ACTION_PREVIOUS_MENU:
             self.close()
         if action == ACTION_MOVE_UP:
@@ -522,7 +516,6 @@ class MailWindow(xbmcgui.WindowXML):
 
     def onClick(self, controlId):
         """Action on click button"""
-        # debug( "onClick controId = %d " % controlId )
         if (controlId in [SERVER1, SERVER2, SERVER3]):
             label = self.getControl(controlId).getLabel()
             self.checkEmail(label)
@@ -530,10 +523,6 @@ class MailWindow(xbmcgui.WindowXML):
             self.close()
 
 #Create window for display mails
-if (skindir != 'skin.aeonmq7'):
-    defaultSkin = 'Default'
-else:
-    defaultSkin = skindir
 defaultSkin = 'Default'
 xbmc.log(('[%s] : %s, %s' % (scriptid,scriptpath, defaultSkin)), DEBUG_LOG)
 mydisplay = MailWindow("script-courrier-main.xml", scriptpath, defaultSkin)
