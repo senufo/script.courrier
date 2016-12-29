@@ -1,3 +1,10 @@
+0.2.4
+- Change string ID range
+- Fix error library path
+- Fix translation
+0.2.3
+- Add specifics fonts for skin courrier
+- Fix error in getpopmail
 0.2.2
 - Fix error ASCII code with debug messages
 - Fix error in pop3.stat function
