@@ -63,100 +63,100 @@ msgctxt "#621"
 msgid "Quit"
 msgstr "Quitter"
 
-msgctxt "#30100"
+msgctxt "#32100"
 msgid "Server name"
 msgstr "Nom du serveur"
 
-msgctxt "#30101"
+msgctxt "#32101"
 msgid "Username"
 msgstr "Utilisateur"
 
-msgctxt "#30102"
+msgctxt "#32102"
 msgid "Password"
 msgstr "Mot de passe"
 
-msgctxt "#30103"
+msgctxt "#32103"
 msgid "Server"
 msgstr "Serveur"
 
-msgctxt "#30104"
+msgctxt "#32104"
 msgid "Port"
 msgstr "Port"
 
-msgctxt "#30105"
+msgctxt "#32105"
 msgid "SSL"
 msgstr "SSL"
 
-msgctxt "#30106"
+msgctxt "#32106"
 msgid "Type"
 msgstr "Type"
 
-#empty strings from id 30107 to 30115
+#empty strings from id 32107 to 32115
 
-msgctxt "#30116"
+msgctxt "#32116"
 msgid "Folder"
 msgstr "Dossier"
 
-msgctxt "#30117"
+msgctxt "#32117"
 msgid "Max Size Message"
 msgstr "Taille maximum du message"
 
-msgctxt "#30118"
+msgctxt "#32118"
 msgid "Filter search messages IMAP"
 msgstr "Filtre de recherche des messages IMAP"
 
-msgctxt "#30119"
+msgctxt "#32119"
 msgid "Background file"
 msgstr "Image de fond du skin"
 
-msgctxt "#30120"
+msgctxt "#32120"
 msgid "UNICODE_SNOB"
 msgstr ""
 
-msgctxt "#30121"
+msgctxt "#32121"
 msgid "ESCAPE_SNOB"
 msgstr ""
 
-msgctxt "#30122"
+msgctxt "#32122"
 msgid "LINKS_EACH_PARAGRAPH"
 msgstr ""
 
-msgctxt "#30123"
+msgctxt "#32123"
 msgid "BODY_WIDTH"
 msgstr ""
 
-msgctxt "#30124"
+msgctxt "#32124"
 msgid "SKIP_INTERNAL_LINKS"
 msgstr ""
 
-msgctxt "#30125"
+msgctxt "#32125"
 msgid "INLINE_LINKS"
 msgstr ""
 
-msgctxt "#30126"
+msgctxt "#32126"
 msgid "GOOGLE_LIST_INDENT"
 msgstr ""
 
-msgctxt "#30127"
+msgctxt "#32127"
 msgid "IGNORE_ANCHORS"
 msgstr ""
 
-msgctxt "#30128"
+msgctxt "#32128"
 msgid "IGNORE_IMAGES"
 msgstr ""
 
-msgctxt "#30131"
+msgctxt "#32131"
 msgid "zzzz"
 msgstr "XXXXXXXXXX"
 
-msgctxt "#30132"
+msgctxt "#32132"
 msgid "DATE : "
 msgstr "Date : "
 
-msgctxt "#30133"
+msgctxt "#32133"
 msgid "Attached file(s)"
 msgstr "Fichier(s) attaché(s)"
 
-msgctxt "#30129"
+msgctxt "#32129"
 msgid "IGNORE_EMPHASIS"
 msgstr ""
