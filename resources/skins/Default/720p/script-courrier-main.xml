@@ -54,7 +54,7 @@
         <textcolor>white</textcolor>
         <aligny>center</aligny>
         <align>right</align>
-        <label>(0) New e-mails</label>
+        <label>(0) $ADDON[script.courrier 611]</label>
       </control>
 
       <control type="label">
